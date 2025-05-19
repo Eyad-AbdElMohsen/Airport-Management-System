@@ -1,0 +1,27 @@
+src/
+├── config/
+│   └── database.config.ts
+│   └── graphql.config.ts
+│   └── env.validation.ts
+│
+├── common/
+│   ├── guards/
+│   ├── filters/
+│   ├── interceptors/
+│   └── context/
+│       └── graphql-context.service.ts
+│
+├── models/
+│   ├── flight/
+│   │   ├── dto/
+│   │   │   └── create-flight.input.ts
+│   │   │   └── update-flight.dto.ts
+│   │   ├── flight.entity.ts
+│   │   ├── flight.module.ts
+│   │   ├── flight.resolver.ts
+│   │   └── flight.service.ts
+│   │
+│   └── ...
+│
+├── app.module.ts
+└── main.ts
