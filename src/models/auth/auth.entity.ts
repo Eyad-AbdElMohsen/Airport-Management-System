@@ -15,6 +15,7 @@ export class AuthModel extends Model {
 
   @Column({
     type: DataType.ENUM(AuthRoles.admin, AuthRoles.passenger, AuthRoles.staff),
+    defaultValue: AuthRoles.passenger,
   })
   role: string;
 

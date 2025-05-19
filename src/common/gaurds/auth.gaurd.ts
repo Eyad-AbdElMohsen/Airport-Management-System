@@ -6,7 +6,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { JWT } from '../../utils/jwt';
+import { JWT } from '../utils/jwt';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
