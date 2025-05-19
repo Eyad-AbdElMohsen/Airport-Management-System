@@ -2,7 +2,6 @@ import {
   ArgumentsHost,
   Catch,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
@@ -11,7 +10,7 @@ import { GraphQLError } from 'graphql';
 export class GeneralGqlExceptionFilter implements GqlExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost){
     let message = 'Internal server error';
-    let status = HttpStatus.INTERNAL_SERVER_ERROR;
+    let status = 500;
     
     if (exception instanceof HttpException) {
       const res = exception.getResponse();

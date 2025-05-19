@@ -9,6 +9,7 @@ export const dbConfig = {
         synchronize: true,
         sync: { alter: true }, // Update existing database schema
         // sync: { alter: true, force: true } // Uncomment to drop and recreate DB (use with caution)
+        logging: false
     }),
     inject: [ConfigService],
 };

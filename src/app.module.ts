@@ -6,17 +6,17 @@ import { APP_FILTER } from '@nestjs/core';
 import { GeneralGqlExceptionFilter } from './common/filters/gql.filter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { gqlConfig } from './config/gql.config';
+import { AuthModule } from './models/auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+    GraphQLModule.forRoot(gqlConfig),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       ...dbConfig,
     }),
-    GraphQLModule.forRoot(gqlConfig),
+    AuthModule,
   ],
   controllers: [],
   providers: [
