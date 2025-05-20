@@ -7,12 +7,14 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { JWT } from '../utils/jwt';
+import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from '../decorators/roles.decoratore';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwt: JWT,
-    private readonly allowedRoles: string[],
+    private reflector: Reflector,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
@@ -22,13 +24,18 @@ export class RolesGuard implements CanActivate {
     if (!authHeader) throw new UnauthorizedException('No authorization header');
 
     const token = authHeader.replace('Bearer ', '');
-    const payload = this.jwt.isJwtTokenValid(token);
+    const payload = this.jwt.validateAccessToken(token);
 
     if (!payload) throw new UnauthorizedException('Invalid token');
 
     ctx.getContext().user = payload;
 
-    if (!this.allowedRoles.includes(payload.role)) {
+    const allowedRoles = this.reflector.get<string[]>(
+      ROLES_KEY,
+      context.getHandler(),
+    );
+
+    if (allowedRoles && !allowedRoles.includes(payload.role)) {
       throw new ForbiddenException('Access denied');
     }
 

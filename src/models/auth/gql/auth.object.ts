@@ -6,6 +6,8 @@ export class Auth {
   @Field(() => Int)
   id: number;
   @Field()
+  name: string;
+  @Field()
   email: string;
   @Field()
   role: AuthRoles;

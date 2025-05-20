@@ -7,6 +7,9 @@ export class AuthModel extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   declare id: CreationOptional<number>;
 
+  @Column({ type: DataType.STRING })
+  name: string;
+
   @Column({ type: DataType.STRING, unique: true })
   email: string;
 
@@ -14,8 +17,13 @@ export class AuthModel extends Model {
   password: string;
 
   @Column({
-    type: DataType.ENUM(AuthRoles.admin, AuthRoles.passenger, AuthRoles.staff),
-    defaultValue: AuthRoles.passenger,
+    type: DataType.ENUM(
+      AuthRoles.admin,
+      AuthRoles.passenger,
+      AuthRoles.staff,
+      AuthRoles.user,
+    ),
+    defaultValue: AuthRoles.user,
   })
   role: string;
 

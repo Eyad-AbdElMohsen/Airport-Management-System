@@ -1,5 +1,6 @@
 export enum AuthRoles { 
     admin = 'admin',
     staff = 'staff',
-    passenger = 'passenger'
+    passenger = 'passenger',
+    user = 'user'
 }

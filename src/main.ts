@@ -1,17 +1,18 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { Sequelize } from "sequelize-typescript";
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { Sequelize } from 'sequelize-typescript';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { ValidationPipe } from "@nestjs/common";
-// import { useContainer } from "class-validator";
+import { ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   try {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    // for validation 
-    // useContainer(app.select(AppModule), { fallbackOnErrors: true }); 
-    // for custom validation
-    // app.useGlobalPipes(new ValidationPipe({ transform: true, forbidNonWhitelisted: true }));
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
+
+    app.useGlobalPipes(
+      new ValidationPipe({ transform: true, forbidNonWhitelisted: true }),
+    );
 
     const sequelize = app.get(Sequelize);
     await sequelize.sync();
@@ -19,7 +20,6 @@ async function bootstrap() {
 
     await app.listen(3000);
     console.log('Application is running: http://localhost:3000');
-    
   } catch (err) {
     console.log('Failed to bootstrap the application', err);
     process.exit(1);
@@ -27,5 +27,5 @@ async function bootstrap() {
 }
 
 bootstrap().catch((err) => {
-  console.error("Bootstrap error:", err);
+  console.error('Bootstrap error:', err);
 });
