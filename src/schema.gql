@@ -4,7 +4,6 @@
 
 type Auth {
   id: Int!
-  name: String!
   email: String!
   role: String!
   createdAt: DateTime
@@ -16,24 +15,38 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Passenger {
+  id: Int!
+  name: String
+  passportNumber: Int
+  nationality: String
+  authId: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 type Query {
   getAllAuth: [Auth!]!
   getMyAuthDetails: Auth!
   getAuthDetails(authId: Float!): Auth!
+  getMyPassengerDetails: Passenger!
+  getPassengerDetails(id: Float!): Passenger!
 }
 
 type Mutation {
   signup(signupInput: SignupInput!): Auth!
   login(loginInput: LoginInput!): JSONObject!
-  updateMyAuth(updateMyAuthInput: UpdateMyAuthInput!): Auth!
+  updateMyAuth(updateMyAuthInput: UpdateRoleInput!): Auth!
   updateRole(updateRoleInput: UpdateRoleInput!, authId: Float!): Auth!
   deleteMyAuth: JSONObject!
   deleteAuth(authId: Float!): JSONObject!
+  updateMyPassengerDetails(updateMyPassengerDetailsInput: UpdateMyPassengerDetailsInput!): Passenger!
+  deleteMyPassenger: JSONObject!
+  deletePassenger(id: Float!): JSONObject!
 }
 
 input SignupInput {
   email: String!
-  name: String!
   password: String!
   role: String!
 }
@@ -48,11 +61,12 @@ input LoginInput {
   password: String!
 }
 
-input UpdateMyAuthInput {
-  name: String
-  role: String
-}
-
 input UpdateRoleInput {
   role: String!
+}
+
+input UpdateMyPassengerDetailsInput {
+  name: String!
+  passportNumber: Int!
+  nationality: String!
 }

@@ -4,7 +4,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsEmail } from 'class-validator';
 
 @InputType()
-export class LoginInput extends OmitType(SignupInput, ['role', 'name']) {
+export class LoginInput extends OmitType(SignupInput, ['role']) {
   @Field()
   @IsNotEmpty()
   @IsEmail()

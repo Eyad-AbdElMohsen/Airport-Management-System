@@ -10,14 +10,17 @@ import { SignupInput } from './gql/signup.input';
 import { compare, hash } from 'bcrypt';
 import { LoginInput } from './gql/login.input';
 import { JWT } from 'src/common/utils/jwt';
-import { UpdateMyAuthInput } from './gql/update.input';
 import { AuthRoles } from 'src/common/types/auth.type';
+import { UpdateRoleInput } from './gql/update.input';
+import { Transaction } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepo: AuthRepo,
     private readonly jwt: JWT,
+    private readonly sequelize: Sequelize,
   ) {}
 
   async getAllAuth() {
@@ -43,7 +46,18 @@ export class AuthService {
     const hashedPass = await hash(signupInput.password, 10);
     signupInput.password = hashedPass;
 
-    return await this.authRepo.create(signupInput);
+    const transaction: Transaction = await this.sequelize.transaction();
+    try {
+      const newAuth = await this.authRepo.create(signupInput, transaction);
+      return newAuth;
+    } catch (err) {
+      console.log('Error in signup: ', err);
+      await transaction.rollback();
+      throw new HttpException(
+        'Transaction field, pls try again',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async login(loginInput: LoginInput) {
@@ -64,7 +78,7 @@ export class AuthService {
     return tokens;
   }
 
-  async updateAuth(id: number, updateMyAuthInput: UpdateMyAuthInput) {
+  async updateAuth(id: number, updateMyAuthInput: UpdateRoleInput) {
     await this.getAuthById(id);
 
     const [count, row] = await this.authRepo.update(id, updateMyAuthInput);

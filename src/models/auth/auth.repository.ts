@@ -2,7 +2,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { AuthModel } from './auth.entity';
 import { SignupInput } from './gql/signup.input';
 import { Injectable } from '@nestjs/common';
-import { UpdateMyAuthInput } from './gql/update.input';
+import { UpdateRoleInput } from './gql/update.input';
+import { Transaction } from 'sequelize';
 
 @Injectable()
 export class AuthRepo {
@@ -20,12 +21,15 @@ export class AuthRepo {
     return await this.authModel.findOne({ where: { email }, raw: true });
   }
 
-  async create(signupInput: SignupInput) {
-    const { name, email, password, role } = signupInput;
-    return await this.authModel.create({ name, email, password, role });
+  async create(signupInput: SignupInput, transaction: Transaction) {
+    const { email, password, role } = signupInput;
+    return await this.authModel.create(
+      { email, password, role },
+      { transaction },
+    );
   }
 
-  async update(id: number, updateMyAuthInput: UpdateMyAuthInput) {
+  async update(id: number, updateMyAuthInput: UpdateRoleInput) {
     return await this.authModel.update(
       {
         ...updateMyAuthInput,

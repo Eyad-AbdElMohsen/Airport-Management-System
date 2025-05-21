@@ -7,6 +7,7 @@ import { GeneralGqlExceptionFilter } from './common/filters/gql.filter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { gqlConfig } from './config/gql.config';
 import { AuthModule } from './models/auth/auth.module';
+import { PassengerModule } from './models/passenger/passenger.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './models/auth/auth.module';
       ...dbConfig,
     }),
     AuthModule,
+    PassengerModule,
   ],
   controllers: [],
   providers: [

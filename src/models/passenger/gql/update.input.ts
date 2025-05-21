@@ -1,0 +1,23 @@
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { PassengerModel } from '../passenger.entity';
+import { IsUnique } from 'src/common/validators/IsUnique.validator';
+
+@InputType()
+export class UpdateMyPassengerDetailsInput {
+  @Field()
+  @IsString()
+  @MinLength(4, { message: 'Name must be at least 4 characters' })
+  @MaxLength(15, { message: 'Name must be less than 15 characters' })
+  name: string;
+
+  @Field(() => Int)
+  @Min(1000000, { message: 'passport number must be 7 digits' })
+  @Max(9999999, { message: 'passport number must be 7 digits' })
+  @IsUnique(PassengerModel)
+  passportNumber: number;
+
+  @Field()
+  @IsString()
+  nationality: string;
+}

@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { Auth } from './gql/auth.object';
 import { LoginInput } from './gql/login.input';
 import { GqlContext } from 'src/common/types/context.type';
-import { UpdateMyAuthInput, UpdateRoleInput } from './gql/update.input';
+import { UpdateRoleInput } from './gql/update.input';
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { Roles } from 'src/common/decorators/roles.decoratore';
@@ -43,7 +43,7 @@ export class AuthResolver {
   @UseGuards(AuthGuard)
   @Mutation(() => Auth)
   async updateMyAuth(
-    @Args('updateMyAuthInput') updateMyAuthInput: UpdateMyAuthInput,
+    @Args('updateMyAuthInput') updateMyAuthInput: UpdateRoleInput,
     @Context() context: GqlContext,
   ): Promise<AuthModel> {
     const id = context.user!.id;

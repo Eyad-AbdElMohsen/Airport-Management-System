@@ -18,14 +18,7 @@ export class SignupInput {
   @IsUnique(AuthModel, { message: 'Email must be unique' })
   @Field()
   email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(4, { message: 'Name must be at least 4 characters' })
-  @MaxLength(15, { message: 'Name must be less than 15 characters' })
-  @Field()
-  name: string;
-
+  
   @Field()
   @IsNotEmpty()
   @MinLength(5, { message: 'Password must be at least 5 characters' })
