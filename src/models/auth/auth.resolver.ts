@@ -20,7 +20,7 @@ export class AuthResolver {
   async signup(
     @Args('signupInput') signupInput: SignupInput,
   ): Promise<AuthModel> {
-    return (await this.authService.signup(signupInput)).dataValues;
+    return await this.authService.signup(signupInput);
   }
 
   @Mutation(() => GraphQLJSONObject)

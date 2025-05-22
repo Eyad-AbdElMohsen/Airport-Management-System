@@ -36,34 +36,6 @@ export class AuthModel extends Model {
   @HasOne(() => PassengerModel)
   passenger: PassengerModel;
 
-  @AfterCreate
-  static async createPassengerIdOnly(instance: AuthModel, options: any) {
-    if (instance.dataValues.role != AuthRoles.passenger) return;
-
-    const transaction = options.transaction;
-    if (!transaction) {
-      throw new HttpException(
-        'Transaction is required for "createPassengerIdOnly" hook',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-
-    try {
-      await PassengerModel.create(
-        { authId: instance.dataValues.id },
-        { transaction },
-      );
-      await transaction.commit();
-    } catch (err) {
-      console.log('Error in creating a passenger hook: ', err);
-      await transaction.rollback();
-      throw new HttpException(
-        'Transaction field, pls try again',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;
 

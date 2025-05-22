@@ -13,8 +13,6 @@ import { CreatePassengerInput } from './gql/create.input';
 export class PassengerService {
   constructor(private readonly passengerRepo: PassengerRepo) {}
 
-  // Passenger is already created auto after auth created with role passenger 
-  // This mutation for passenger if he deleted its details,  
   async createPassenger(
     authId: number,
     createPassengerInput: CreatePassengerInput,

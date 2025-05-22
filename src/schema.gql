@@ -81,9 +81,9 @@ input UpdateRoleInput {
 }
 
 input CreatePassengerInput {
-  name: String
-  passportNumber: Int
-  nationality: String
+  name: String!
+  passportNumber: Int!
+  nationality: String!
 }
 
 input UpdateMyPassengerDetailsInput {

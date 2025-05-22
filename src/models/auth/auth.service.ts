@@ -38,27 +38,12 @@ export class AuthService {
   }
 
   async signup(signupInput: SignupInput) {
-    // const isEmailExist = await this.getAuthByEmail(signupInput.email);
-    // if (isEmailExist) {
-    //   throw new HttpException('Email is already exist', HttpStatus.BAD_REQUEST);
-    // }
-    // Dont need that --> IsUnique() custom validation handeled that!
-
     const hashedPass = await hash(signupInput.password, 10);
     signupInput.password = hashedPass;
 
     const transaction: Transaction = await this.sequelize.transaction();
-    try {
-      const newAuth = await this.authRepo.create(signupInput, transaction);
-      return newAuth;
-    } catch (err) {
-      console.log('Error in signup: ', err);
-      await transaction.rollback();
-      throw new HttpException(
-        'Transaction field, pls try again',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return (await this.authRepo.create(signupInput)).dataValues;
+
   }
 
   async login(loginInput: LoginInput) {

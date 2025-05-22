@@ -11,19 +11,19 @@ import { IsUnique } from 'src/common/validators/IsUnique.validator';
 
 @InputType()
 export class CreatePassengerInput {
-  @Field({ nullable: true })
+  @Field()
   @IsString()
   @MinLength(3, { message: 'Name must be at least 3 characters' })
   @MaxLength(15, { message: 'Name must be less than 15 characters' })
-  name?: string;
+  name: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   @Min(1000000, { message: 'passport number must be 7 digits' })
   @Max(9999999, { message: 'passport number must be 7 digits' })
   @IsUnique(PassengerModel)
-  passportNumber?: number;
+  passportNumber: number;
 
-  @Field( { nullable: true })
+  @Field()
   @IsString()
-  nationality?: string;
+  nationality: string;
 }

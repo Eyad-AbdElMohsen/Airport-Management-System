@@ -21,11 +21,8 @@ export class AuthRepo {
     return await this.authModel.findOne({ where: { email }, raw: true });
   }
 
-  async create(signupInput: SignupInput, transaction: Transaction) {
-    return await this.authModel.create(
-      { ...signupInput },
-      { transaction },
-    );
+  async create(signupInput: SignupInput) {
+    return await this.authModel.create({ ...signupInput });
   }
 
   async update(id: number, updateMyAuthInput: UpdateRoleInput) {
