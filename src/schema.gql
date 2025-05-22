@@ -20,9 +20,19 @@ type Passenger {
   name: String
   passportNumber: Int
   nationality: String
-  authId: Int
+  authId: Int!
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+type Airport {
+  id: Int!
+  name: String!
+  location: String!
+  email: String!
+  code: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
@@ -31,6 +41,8 @@ type Query {
   getAuthDetails(authId: Float!): Auth!
   getMyPassengerDetails: Passenger!
   getPassengerDetails(id: Float!): Passenger!
+  getAllAirports: [Airport!]!
+  getAirportDetails(airportId: Float!): Airport!
 }
 
 type Mutation {
@@ -43,6 +55,8 @@ type Mutation {
   updateMyPassengerDetails(updateMyPassengerDetailsInput: UpdateMyPassengerDetailsInput!): Passenger!
   deleteMyPassenger: JSONObject!
   deletePassenger(id: Float!): JSONObject!
+  createAirport(createAirportInput: CreateAirportInput!): Airport!
+  deleteAirport(airportId: Float!): JSONObject!
 }
 
 input SignupInput {
@@ -66,7 +80,14 @@ input UpdateRoleInput {
 }
 
 input UpdateMyPassengerDetailsInput {
+  name: String
+  passportNumber: Int
+  nationality: String
+}
+
+input CreateAirportInput {
   name: String!
-  passportNumber: Int!
-  nationality: String!
+  location: String!
+  email: String!
+  code: String!
 }

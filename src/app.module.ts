@@ -8,6 +8,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { gqlConfig } from './config/gql.config';
 import { AuthModule } from './models/auth/auth.module';
 import { PassengerModule } from './models/passenger/passenger.module';
+import { AirportModule } from './models/airport/airport.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PassengerModule } from './models/passenger/passenger.module';
     }),
     AuthModule,
     PassengerModule,
+    AirportModule,
   ],
   controllers: [],
   providers: [
