@@ -6,7 +6,7 @@ import { Airport } from './gql/airport.object';
 import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { AirportService } from './airport.service';
-import { CreateAirportInput } from './gql/createAirport.input';
+import { CreateAirportInput } from './gql/create.input';
 import { GraphQLJSONObject } from 'graphql-type-json';
 
 @UseGuards(AuthGuard)

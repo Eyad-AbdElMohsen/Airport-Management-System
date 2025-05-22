@@ -9,7 +9,6 @@ import {
 } from 'sequelize-typescript';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { PassengerModel } from '../passenger/passenger.entity';
-import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Table
 export class AuthModel extends Model {

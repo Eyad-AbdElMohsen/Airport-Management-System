@@ -13,7 +13,10 @@ export class PassengerRepo {
   ) {}
 
   async create(authId: number, createPassengerInput: CreatePassengerInput) {
-    return await this.passengerModel.create({ ...createPassengerInput, authId });
+    return await this.passengerModel.create({
+      ...createPassengerInput,
+      authId,
+    });
   }
 
   async updatePassenger(
@@ -28,8 +31,8 @@ export class PassengerRepo {
     );
   }
 
-  async getByid(id: number) {
-    return this.passengerModel.findByPk(id, { raw: true });
+  async getAll() {
+    return await this.passengerModel.findAll({ raw: true });
   }
 
   async getByAuthId(authId: number) {

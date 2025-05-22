@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AirportRepo } from './airport.repository';
-import { CreateAirportInput } from './gql/createAirport.input';
+import { CreateAirportInput } from './gql/create.input';
 
 @Injectable()
 export class AirportService {

@@ -28,10 +28,8 @@ export class PassengerService {
     return passenger
   }
 
-  async getPassengerById(id: number) {
-    const passenger = await this.passengerRepo.getByid(id);
-    if (!passenger) throw new NotFoundException('No Passenger Found');
-    return passenger;
+  async getAllPassengers(){
+    return await this.passengerRepo.getAll()
   }
 
   async updateMyPassengerDetails(

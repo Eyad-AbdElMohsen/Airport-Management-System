@@ -37,12 +37,11 @@ export class PassengerResolver {
     return await this.passengerService.getPassengerByAuthId(authId);
   }
 
-  @Query(() => Passenger)
+  @Query(() => [Passenger])
   @Roles(AuthRoles.admin)
-  async getPassengerDetails(
-    @Args('id', ParseIntPipe) id: number,
-  ): Promise<PassengerModel> {
-    return await this.passengerService.getPassengerById(id);
+  async getAllPassengers(
+  ): Promise<PassengerModel[]> {
+    return await this.passengerService.getAllPassengers();
   }
 
   @Mutation(() => Passenger)

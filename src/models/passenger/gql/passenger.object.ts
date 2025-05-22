@@ -4,11 +4,11 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 export class Passenger {
   @Field(() => Int)
   id: number;
-  @Field({ nullable: true })
+  @Field()
   name: string;
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   passportNumber: number;
-  @Field({ nullable: true })
+  @Field()
   nationality: string;
   @Field(() => Int)
   authId: number;

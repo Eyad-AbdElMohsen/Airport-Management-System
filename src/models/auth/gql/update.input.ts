@@ -5,6 +5,6 @@ import { AuthRoles } from 'src/common/types/auth.type';
 @InputType()
 export class UpdateRoleInput {
   @Field()
-  @IsIn([AuthRoles.admin, AuthRoles.passenger, AuthRoles.staff, AuthRoles.user])
+  @IsIn(Object.values(AuthRoles))
   role: string;
 }

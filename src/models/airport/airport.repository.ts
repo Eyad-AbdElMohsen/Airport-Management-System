@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AirportModel } from './airport.entity';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateAirportInput } from './gql/createAirport.input';
+import { CreateAirportInput } from './gql/create.input';
 
 @Injectable()
 export class AirportRepo {
