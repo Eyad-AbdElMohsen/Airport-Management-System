@@ -10,7 +10,7 @@ export class Passenger {
   passportNumber: number;
   @Field({ nullable: true })
   nationality: string;
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   authId: number;
   @Field({ nullable: true })
   createdAt: Date;

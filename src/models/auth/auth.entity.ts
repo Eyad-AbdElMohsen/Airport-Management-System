@@ -49,7 +49,6 @@ export class AuthModel extends Model {
     }
 
     try {
-      console.log(instance.dataValues)
       await PassengerModel.create(
         { authId: instance.dataValues.id },
         { transaction },

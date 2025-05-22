@@ -3,8 +3,9 @@ import { PassengerModel } from './passenger.entity';
 import { Injectable } from '@nestjs/common';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { DestroyOptions } from 'sequelize';
+import { Resolver } from '@nestjs/graphql';
 
-@Injectable()
+@Resolver(() => PassengerModel)
 export class PassengerRepo {
   constructor(
     @InjectModel(PassengerModel) private passengerModel: typeof PassengerModel,

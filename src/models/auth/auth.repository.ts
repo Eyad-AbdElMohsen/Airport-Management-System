@@ -22,9 +22,8 @@ export class AuthRepo {
   }
 
   async create(signupInput: SignupInput, transaction: Transaction) {
-    const { email, password, role } = signupInput;
     return await this.authModel.create(
-      { email, password, role },
+      { ...signupInput },
       { transaction },
     );
   }

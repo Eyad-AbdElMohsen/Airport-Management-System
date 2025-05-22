@@ -1,12 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import {
-  IsIn,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsIn } from 'class-validator';
 import { AuthRoles } from 'src/common/types/auth.type';
 
 @InputType()

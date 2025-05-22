@@ -14,17 +14,17 @@ export class PassengerModel extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   declare id: CreationOptional<number>;
 
-  @Column({ type: DataType.STRING, allowNull: true })
+  @Column({ type: DataType.STRING })
   name: string;
 
-  @Column({ type: DataType.INTEGER, unique: true, allowNull: true })
+  @Column({ type: DataType.INTEGER, unique: true })
   passportNumber: number;
 
-  @Column({ type: DataType.STRING, allowNull: true })
+  @Column({ type: DataType.STRING })
   nationality: string;
 
   @ForeignKey(() => AuthModel) // specify that this column from another model
-  @Column({ type: DataType.INTEGER, allowNull: true })
+  @Column({ type: DataType.INTEGER, onDelete: 'CASCADE' })
   authId: number;
   @BelongsTo(() => AuthModel) // specify the relation between models
   auth: AuthModel;
