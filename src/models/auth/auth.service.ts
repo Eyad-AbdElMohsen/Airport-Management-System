@@ -38,10 +38,11 @@ export class AuthService {
   }
 
   async signup(signupInput: SignupInput) {
-    const isEmailExist = await this.getAuthByEmail(signupInput.email);
-    if (isEmailExist) {
-      throw new HttpException('Email is already exist', HttpStatus.BAD_REQUEST);
-    }
+    // const isEmailExist = await this.getAuthByEmail(signupInput.email);
+    // if (isEmailExist) {
+    //   throw new HttpException('Email is already exist', HttpStatus.BAD_REQUEST);
+    // }
+    // Dont need that --> IsUnique() custom validation handeled that!
 
     const hashedPass = await hash(signupInput.password, 10);
     signupInput.password = hashedPass;

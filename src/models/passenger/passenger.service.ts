@@ -7,19 +7,27 @@ import {
 import { PassengerRepo } from './passenger.repository';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { DestroyOptions, WhereOptions } from 'sequelize';
+import { CreatePassengerInput } from './gql/create.input';
 
 @Injectable()
 export class PassengerService {
   constructor(private readonly passengerRepo: PassengerRepo) {}
 
-  async getPassengerByPassport(passport: number) {
-    return await this.passengerRepo.getByPassport(passport);
+  // Passenger is already created auto after auth created with role passenger 
+  // This mutation for passenger if he deleted its details,  
+  async createPassenger(
+    authId: number,
+    createPassengerInput: CreatePassengerInput,
+  ) {
+    const isExist = await this.passengerRepo.getByAuthId(authId);
+    if (isExist) throw new NotFoundException('Passenger is alrady found!');
+    return (await this.passengerRepo.create(authId, createPassengerInput)).dataValues;
   }
 
   async getPassengerByAuthId(authId: number) {
     const passenger = await this.passengerRepo.getByAuthId(authId);
     if (!passenger) throw new NotFoundException('No Passenger Found');
-    return passenger;
+    return passenger
   }
 
   async getPassengerById(id: number) {
@@ -32,8 +40,12 @@ export class PassengerService {
     authId: number,
     updateMyPassengerDetailsInput: UpdateMyPassengerDetailsInput,
   ) {
-    await this.getPassengerByAuthId(authId);
-    const [count, row] = await this.passengerRepo.updatePassenger(authId, updateMyPassengerDetailsInput);
+    await this.getPassengerByAuthId(authId)
+
+    const [count, row] = await this.passengerRepo.updatePassenger(
+      authId,
+      updateMyPassengerDetailsInput,
+    );
     if (!count)
       throw new HttpException(
         'No thing updated',

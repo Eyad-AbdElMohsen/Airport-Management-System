@@ -52,6 +52,7 @@ type Mutation {
   updateRole(updateRoleInput: UpdateRoleInput!, authId: Float!): Auth!
   deleteMyAuth: JSONObject!
   deleteAuth(authId: Float!): JSONObject!
+  createMyPassengerDetails(createPassengerInput: CreatePassengerInput!): Passenger!
   updateMyPassengerDetails(updateMyPassengerDetailsInput: UpdateMyPassengerDetailsInput!): Passenger!
   deleteMyPassenger: JSONObject!
   deletePassenger(id: Float!): JSONObject!
@@ -77,6 +78,12 @@ input LoginInput {
 
 input UpdateRoleInput {
   role: String!
+}
+
+input CreatePassengerInput {
+  name: String
+  passportNumber: Int
+  nationality: String
 }
 
 input UpdateMyPassengerDetailsInput {

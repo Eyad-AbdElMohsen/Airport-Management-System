@@ -4,12 +4,17 @@ import { Injectable } from '@nestjs/common';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { DestroyOptions } from 'sequelize';
 import { Resolver } from '@nestjs/graphql';
+import { CreatePassengerInput } from './gql/create.input';
 
 @Resolver(() => PassengerModel)
 export class PassengerRepo {
   constructor(
     @InjectModel(PassengerModel) private passengerModel: typeof PassengerModel,
   ) {}
+
+  async create(authId: number, createPassengerInput: CreatePassengerInput) {
+    return await this.passengerModel.create({ ...createPassengerInput, authId });
+  }
 
   async updatePassenger(
     authId: number,
@@ -25,13 +30,6 @@ export class PassengerRepo {
 
   async getByid(id: number) {
     return this.passengerModel.findByPk(id, { raw: true });
-  }
-
-  async getByPassport(passportNumber: number) {
-    return await this.passengerModel.findOne({
-      where: { passportNumber },
-      raw: true,
-    });
   }
 
   async getByAuthId(authId: number) {

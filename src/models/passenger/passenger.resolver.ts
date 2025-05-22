@@ -7,14 +7,26 @@ import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { Passenger } from './gql/passenger.object';
 import { GqlContext } from 'src/common/types/context.type';
-import {
-  UpdateMyPassengerDetailsInput,
-} from './gql/update.input';
+import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { GraphQLJSONObject } from 'graphql-type-json';
+import { CreatePassengerInput } from './gql/create.input';
 
 @UseGuards(AuthGuard)
 export class PassengerResolver {
   constructor(private readonly passengerService: PassengerService) {}
+
+  @Roles(AuthRoles.passenger)
+  @Mutation(() => Passenger)
+  async createMyPassengerDetails(
+    @Args('createPassengerInput') createPassengerInput: CreatePassengerInput,
+    @Context() context: GqlContext,
+  ): Promise<PassengerModel> {
+    const authId = context.user!.id;
+    return await this.passengerService.createPassenger(
+      authId,
+      createPassengerInput,
+    );
+  }
 
   @Query(() => Passenger)
   @Roles(AuthRoles.passenger)
@@ -46,7 +58,6 @@ export class PassengerResolver {
       updateMyPassengerDetailsInput,
     );
   }
-
 
   @Mutation(() => GraphQLJSONObject)
   @Roles(AuthRoles.passenger)
