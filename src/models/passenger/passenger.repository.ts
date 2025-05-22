@@ -1,8 +1,7 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { PassengerModel } from './passenger.entity';
-import { Injectable } from '@nestjs/common';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
-import { DestroyOptions } from 'sequelize';
+import { DestroyOptions, FindOptions } from 'sequelize';
 import { Resolver } from '@nestjs/graphql';
 import { CreatePassengerInput } from './gql/create.input';
 
@@ -31,7 +30,8 @@ export class PassengerRepo {
     );
   }
 
-  async getAll() {
+  async getAll(options: FindOptions) {
+    options.raw = true
     return await this.passengerModel.findAll({ raw: true });
   }
 

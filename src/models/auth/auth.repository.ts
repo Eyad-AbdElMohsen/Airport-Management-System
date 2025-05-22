@@ -3,14 +3,15 @@ import { AuthModel } from './auth.entity';
 import { SignupInput } from './gql/signup.input';
 import { Injectable } from '@nestjs/common';
 import { UpdateRoleInput } from './gql/update.input';
-import { Transaction } from 'sequelize';
+import { FindOptions, Transaction } from 'sequelize';
 
 @Injectable()
 export class AuthRepo {
   constructor(@InjectModel(AuthModel) private authModel: typeof AuthModel) {}
 
-  async getAll() {
-    return await this.authModel.findAll({ raw: true });
+  async getAll(options: FindOptions) {
+    options.raw = true
+    return await this.authModel.findAll(options);
   }
 
   async getById(id: number) {

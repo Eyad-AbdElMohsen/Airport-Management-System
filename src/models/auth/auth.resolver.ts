@@ -11,6 +11,8 @@ import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { GraphQLJSONObject } from 'graphql-type-json';
+import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
 
 @Resolver(() => AuthModel)
 export class AuthResolver {
@@ -63,8 +65,11 @@ export class AuthResolver {
   @Query(() => [Auth])
   @UseGuards(AuthGuard)
   @Roles(AuthRoles.admin)
-  async getAllAuth(): Promise<AuthModel[]> {
-    return await this.authService.getAllAuth();
+  async getAllAuth(
+    @Args('query', ApiFeaturesPipe)
+    options: BaseQueryInput,
+  ): Promise<AuthModel[]> {
+    return await this.authService.getAllAuth(options);
   }
 
   @Query(() => Auth)

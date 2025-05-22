@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { StaffModel } from './staff.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateStaffInput } from './gql/create.input';
-import { DestroyOptions } from 'sequelize';
+import { DestroyOptions, FindOptions } from 'sequelize';
 
 @Injectable()
 export class staffRepo {
@@ -19,8 +19,9 @@ export class staffRepo {
     return await this.staffModel.findOne({ where: { authId }, raw: true });
   }
 
-  async getAll() {
-    return await this.staffModel.findAll({ raw: true });
+  async getAll(options: FindOptions) {
+    options.raw = true
+    return await this.staffModel.findAll(options);
   }
 
   async delete(where: DestroyOptions) {

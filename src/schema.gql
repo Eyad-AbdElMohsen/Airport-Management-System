@@ -45,16 +45,28 @@ type Staff {
 }
 
 type Query {
-  getAllAuth: [Auth!]!
+  getAllAuth(query: BaseQueryInput!): [Auth!]!
   getMyAuthDetails: Auth!
   getAuthDetails(authId: Float!): Auth!
   getMyPassengerDetails: Passenger!
-  getAllPassengers: [Passenger!]!
-  getAllAirports: [Airport!]!
+  getAllPassengers(query: BaseQueryInput!): [Passenger!]!
+  getAllAirports(query: BaseQueryInput!): [Airport!]!
   getAirportDetails(airportId: Float!): Airport!
   getMyStaffDetails: Staff!
-  getAllStaff: [Staff!]!
+  getAllStaff(query: BaseQueryInput!): [Staff!]!
 }
+
+input BaseQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
 
 type Mutation {
   signup(signupInput: SignupInput!): Auth!
@@ -79,11 +91,6 @@ input SignupInput {
   password: String!
   role: String!
 }
-
-"""
-The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSONObject
 
 input LoginInput {
   email: String!

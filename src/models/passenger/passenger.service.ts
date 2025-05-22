@@ -8,6 +8,7 @@ import { PassengerRepo } from './passenger.repository';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { DestroyOptions, WhereOptions } from 'sequelize';
 import { CreatePassengerInput } from './gql/create.input';
+import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 
 @Injectable()
 export class PassengerService {
@@ -19,24 +20,33 @@ export class PassengerService {
   ) {
     const isExist = await this.passengerRepo.getByAuthId(authId);
     if (isExist) throw new NotFoundException('Passenger is alrady found!');
-    return (await this.passengerRepo.create(authId, createPassengerInput)).dataValues;
+    return (await this.passengerRepo.create(authId, createPassengerInput))
+      .dataValues;
   }
 
   async getPassengerByAuthId(authId: number) {
     const passenger = await this.passengerRepo.getByAuthId(authId);
     if (!passenger) throw new NotFoundException('No Passenger Found');
-    return passenger
+    return passenger;
   }
 
-  async getAllPassengers(){
-    return await this.passengerRepo.getAll()
+  async getAllPassengers(options: BaseQueryInput) {
+    try {
+      return await this.passengerRepo.getAll(options);
+    } catch (err) {
+      console.log('Error Getting Staff: ', err);
+      throw new HttpException(
+        'Filtering Validation Error',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async updateMyPassengerDetails(
     authId: number,
     updateMyPassengerDetailsInput: UpdateMyPassengerDetailsInput,
   ) {
-    await this.getPassengerByAuthId(authId)
+    await this.getPassengerByAuthId(authId);
 
     const [count, row] = await this.passengerRepo.updatePassenger(
       authId,

@@ -10,6 +10,8 @@ import { GqlContext } from 'src/common/types/context.type';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { CreatePassengerInput } from './gql/create.input';
+import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
 
 @UseGuards(AuthGuard)
 export class PassengerResolver {
@@ -40,8 +42,10 @@ export class PassengerResolver {
   @Query(() => [Passenger])
   @Roles(AuthRoles.admin)
   async getAllPassengers(
+    @Args('query', ApiFeaturesPipe)
+    options: BaseQueryInput,
   ): Promise<PassengerModel[]> {
-    return await this.passengerService.getAllPassengers();
+    return await this.passengerService.getAllPassengers(options);
   }
 
   @Mutation(() => Passenger)

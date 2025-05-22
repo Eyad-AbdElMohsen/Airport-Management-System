@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { staffRepo } from './staff.repository';
 import { CreateStaffInput } from './gql/create.input';
-import { DestroyOptions } from 'sequelize';
+import { DestroyOptions, FindOptions } from 'sequelize';
+import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 
 @Injectable()
 export class StaffService {
@@ -13,8 +19,16 @@ export class StaffService {
     return (await this.staffRepo.create(authId, createStaffInput)).dataValues;
   }
 
-  async getAllStaff() {
-    return await this.staffRepo.getAll();
+  async getAllStaff(options: BaseQueryInput) {
+    try {
+      return await this.staffRepo.getAll(options);
+    } catch (err) {
+      console.log('Error Getting Staff: ', err);
+      throw new HttpException(
+        'Filtering Validation Error',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async getStaffByAuthId(authId: number) {
