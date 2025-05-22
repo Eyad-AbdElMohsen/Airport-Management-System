@@ -16,7 +16,6 @@ export class UniqueVal implements ValidatorConstraintInterface {
     }
 
     const model: ModelCtor<Model> = args.constraints[0];
-    console.log({ [args.property]: value })
     const val = await model.findOne({ where: { [args.property]: value } });
     return !val
   }

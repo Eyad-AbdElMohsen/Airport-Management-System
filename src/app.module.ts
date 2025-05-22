@@ -9,6 +9,7 @@ import { gqlConfig } from './config/gql.config';
 import { AuthModule } from './models/auth/auth.module';
 import { PassengerModule } from './models/passenger/passenger.module';
 import { AirportModule } from './models/airport/airport.module';
+import { StaffModule } from './models/staff/staff.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AirportModule } from './models/airport/airport.module';
     AuthModule,
     PassengerModule,
     AirportModule,
+    StaffModule,
   ],
   controllers: [],
   providers: [
