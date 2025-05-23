@@ -11,6 +11,7 @@ import { PassengerModule } from './models/passenger/passenger.module';
 import { AirportModule } from './models/airport/airport.module';
 import { StaffModule } from './models/staff/staff.module';
 import { PlaneModule } from './models/plane/plane.module';
+import { FlightModule } from './models/flight/flight.module';
 // import { SeatModule } from './models/seat/seat.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { PlaneModule } from './models/plane/plane.module';
     AirportModule,
     StaffModule,
     PlaneModule,
+    FlightModule
     // SeatModule
   ],
   controllers: [],

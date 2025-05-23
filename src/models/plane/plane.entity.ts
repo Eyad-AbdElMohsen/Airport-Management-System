@@ -1,5 +1,6 @@
 import { CreationOptional } from 'sequelize';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { FlightModel } from '../flight/flight.entity';
 
 @Table
 export class PlaneModel extends Model {
@@ -8,6 +9,9 @@ export class PlaneModel extends Model {
 
   @Column({ type: DataType.STRING, unique: true })
   name: string;
+
+  @HasMany(() => FlightModel)
+  flight: FlightModel[]
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;

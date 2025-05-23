@@ -51,6 +51,21 @@ type Plane {
   updatedAt: DateTime!
 }
 
+type Flight {
+  id: Int!
+  fromCountry: String!
+  toCountry: String!
+  num: Float!
+  status: String!
+  planeId: Float!
+  departureId: Float!
+  departureTime: DateTime!
+  destinationId: Float!
+  arrivalTime: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getAllAuth(query: BaseQueryInput!): [Auth!]!
   getMyAuthDetails: Auth!
@@ -63,6 +78,8 @@ type Query {
   getAllStaff(query: BaseQueryInput!): [Staff!]!
   getPlane(planeId: Float!): Plane!
   getAllPlanes(query: BaseQueryInput!): [Plane!]!
+  getFlight(flightId: Float!): Flight!
+  getAllFlights(query: BaseQueryInput!): [Flight!]!
 }
 
 input BaseQueryInput {
@@ -95,6 +112,7 @@ type Mutation {
   deleteStaff(id: Float!): JSONObject!
   createPlane(createPlaneInput: CreatePlaneInput!): Plane!
   deletePlane(planeId: Float!): JSONObject!
+  createFlight(createFlightInput: CreateFlightInput!): Flight!
 }
 
 input SignupInput {
@@ -139,4 +157,16 @@ input CreateStaffInput {
 
 input CreatePlaneInput {
   name: String!
+}
+
+input CreateFlightInput {
+  num: Int!
+  fromCountry: String!
+  toCountry: String!
+  status: String!
+  planeId: Int!
+  departureId: Float!
+  departureTime: DateTime!
+  destinationId: Float!
+  arrivalTime: DateTime!
 }
