@@ -10,6 +10,8 @@ import { AuthModule } from './models/auth/auth.module';
 import { PassengerModule } from './models/passenger/passenger.module';
 import { AirportModule } from './models/airport/airport.module';
 import { StaffModule } from './models/staff/staff.module';
+import { PlaneModule } from './models/plane/plane.module';
+// import { SeatModule } from './models/seat/seat.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { StaffModule } from './models/staff/staff.module';
     PassengerModule,
     AirportModule,
     StaffModule,
+    PlaneModule,
+    // SeatModule
   ],
   controllers: [],
   providers: [

@@ -40,8 +40,15 @@ type Staff {
   name: String!
   role: String!
   authId: Int!
-  createdAt: DateTime
-  updatedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Plane {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
@@ -54,6 +61,8 @@ type Query {
   getAirportDetails(airportId: Float!): Airport!
   getMyStaffDetails: Staff!
   getAllStaff(query: BaseQueryInput!): [Staff!]!
+  getPlane(planeId: Float!): Plane!
+  getAllPlanes(query: BaseQueryInput!): [Plane!]!
 }
 
 input BaseQueryInput {
@@ -84,6 +93,8 @@ type Mutation {
   createMyStaffDetails(createStaffInput: CreateStaffInput!): Staff!
   deleteMyStaff: JSONObject!
   deleteStaff(id: Float!): JSONObject!
+  createPlane(createPlaneInput: CreatePlaneInput!): Plane!
+  deletePlane(planeId: Float!): JSONObject!
 }
 
 input SignupInput {
@@ -124,4 +135,8 @@ input CreateStaffInput {
   name: String!
   role: String!
   airportId: Int!
+}
+
+input CreatePlaneInput {
+  name: String!
 }
