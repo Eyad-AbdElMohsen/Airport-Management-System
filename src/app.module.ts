@@ -13,6 +13,7 @@ import { StaffModule } from './models/staff/staff.module';
 import { PlaneModule } from './models/plane/plane.module';
 import { FlightModule } from './models/flight/flight.module';
 import { SeatModule } from './models/seat/seat.module';
+import { FlightAssignmentModule } from './models/flightAssignment/flightAssignment.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { SeatModule } from './models/seat/seat.module';
     StaffModule,
     PlaneModule,
     FlightModule,
-    SeatModule
+    SeatModule,
+    FlightAssignmentModule
   ],
   controllers: [],
   providers: [

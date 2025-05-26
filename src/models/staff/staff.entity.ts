@@ -4,12 +4,14 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { AuthModel } from '../auth/auth.entity';
 import { AirportModel } from '../airport/airport.entity';
 import { StaffRoles } from 'src/common/types/staff.type';
+import { FlightAssignmentModel } from '../flightAssignment/flightAssignment.entity';
 
 @Table
 export class StaffModel extends Model {
@@ -36,6 +38,9 @@ export class StaffModel extends Model {
   airportId: number;
   @BelongsTo(() => AirportModel)
   airport: AirportModel;
+
+  @HasMany(()=> FlightAssignmentModel)
+  flightAssignment: FlightAssignmentModel
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;

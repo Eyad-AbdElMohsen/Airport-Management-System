@@ -66,6 +66,13 @@ type Flight {
   updatedAt: DateTime!
 }
 
+type FlightAssignment {
+  flightId: Int!
+  staffId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getAllAuth(query: BaseQueryInput!): [Auth!]!
   getMyAuthDetails: Auth!
@@ -113,6 +120,8 @@ type Mutation {
   createPlane(createPlaneInput: CreatePlaneInput!): Plane!
   deletePlane(planeId: Float!): JSONObject!
   createFlight(createFlightInput: CreateFlightInput!): Flight!
+  createFlightAssignment(createFlightAssignmentInput: CreateFlightAssignmentInput!): FlightAssignment!
+  deletFlightAssignment(deleteFlightAssignmentInput: DeleteFlightAssignmentInput!): JSONObject!
 }
 
 input SignupInput {
@@ -169,4 +178,14 @@ input CreateFlightInput {
   departureTime: DateTime!
   destinationId: Float!
   arrivalTime: DateTime!
+}
+
+input CreateFlightAssignmentInput {
+  flightId: Int!
+  staffId: Int!
+}
+
+input DeleteFlightAssignmentInput {
+  flightId: Int!
+  staffId: Int!
 }
