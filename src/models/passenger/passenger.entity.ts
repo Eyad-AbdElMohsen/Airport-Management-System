@@ -6,8 +6,10 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { AuthModel } from '../auth/auth.entity';
+import { BagModel } from '../bag/bag.entity';
 
 @Table
 export class PassengerModel extends Model {
@@ -28,6 +30,9 @@ export class PassengerModel extends Model {
   authId: number;
   @BelongsTo(() => AuthModel) // specify the relation between models
   auth: AuthModel;
+
+  @HasMany(()=> BagModel)
+  bag: BagModel
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;

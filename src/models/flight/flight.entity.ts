@@ -12,6 +12,7 @@ import { FlightStatus } from 'src/common/types/flightStatus.type';
 import { AirportModel } from '../airport/airport.entity';
 import { PlaneModel } from '../plane/plane.entity';
 import { FlightAssignmentModel } from '../flightAssignment/flightAssignment.entity';
+import { BagModel } from '../bag/bag.entity';
 
 @Table
 export class FlightModel extends Model {
@@ -59,6 +60,9 @@ export class FlightModel extends Model {
 
   @HasMany(() => FlightAssignmentModel)
   flightAssignment: FlightAssignmentModel;
+
+  @HasMany(() => BagModel)
+  bag: BagModel;
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;
