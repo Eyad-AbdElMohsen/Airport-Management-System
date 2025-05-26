@@ -14,22 +14,17 @@ import { StaffRoles } from 'src/common/types/staff.type';
 @Table
 export class StaffModel extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
-  declare id: CreationOptional<number>
+  declare id: CreationOptional<number>;
 
   @Column({ type: DataType.STRING })
   name: string;
 
   @Column({
-    type: DataType.ENUM(
-      StaffRoles.crew,
-      StaffRoles.pilot,
-      StaffRoles.security,
-      StaffRoles.els,
-    ),
+    type: DataType.ENUM(...Object.values(StaffRoles)),
     defaultValue: StaffRoles.els,
   })
-  role: string
-  
+  role: string;
+
   @ForeignKey(() => AuthModel)
   @Column({ type: DataType.INTEGER, onDelete: 'CASCADE' })
   authId: number;

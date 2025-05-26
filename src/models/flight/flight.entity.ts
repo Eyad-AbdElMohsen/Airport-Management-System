@@ -26,11 +26,7 @@ export class FlightModel extends Model {
   toCountry: string;
 
   @Column({
-    type: DataType.ENUM(
-      FlightStatus.CANCELED,
-      FlightStatus.DELAYED,
-      FlightStatus.ON_TIME,
-    ),
+    type: DataType.ENUM(...Object.values(FlightStatus)),
     defaultValue: FlightStatus.ON_TIME,
   })
   status: FlightStatus;

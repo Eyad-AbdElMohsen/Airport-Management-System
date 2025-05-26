@@ -2,14 +2,17 @@ import { InjectModel } from '@nestjs/sequelize';
 import { PlaneModel } from './plane.entity';
 import { Injectable } from '@nestjs/common';
 import { CreatePlaneInput } from './gql/create.input';
-import { FindOptions } from 'sequelize';
+import { FindOptions, Transaction } from 'sequelize';
 
 @Injectable()
 export class PlaneRepo {
   constructor(@InjectModel(PlaneModel) private planeModel: typeof PlaneModel) {}
 
-  async create(createPlaneInput: CreatePlaneInput) {
-    return await this.planeModel.create({ ...createPlaneInput });
+  async create(createPlaneInput: CreatePlaneInput, transaction: Transaction) {
+    return await this.planeModel.create(
+      { ...createPlaneInput },
+      { transaction },
+    );
   }
 
   async getById(id: number) {

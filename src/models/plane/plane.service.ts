@@ -1,14 +1,35 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PlaneRepo } from './plane.repository';
 import { CreatePlaneInput } from './gql/create.input';
 import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { Transaction } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class PlaneService {
-  constructor(private readonly planeRepo: PlaneRepo) {}
+  constructor(
+    private readonly planeRepo: PlaneRepo,
+    private sequelize: Sequelize,
+  ) {}
 
   async createPlane(createPlaneInput: CreatePlaneInput) {
-    return (await this.planeRepo.create(createPlaneInput)).dataValues;
+    const transaction: Transaction = await this.sequelize.transaction();
+    try {
+      return (await this.planeRepo.create(createPlaneInput, transaction))
+        .dataValues;
+    } catch (err) {
+      console.log('Error in creating a Plane: ', err);
+      await transaction.rollback();
+      throw new InternalServerErrorException(
+        'Transaction field, pls try again',
+      );
+    }
   }
 
   async getPlaneById(id: number) {

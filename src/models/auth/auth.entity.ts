@@ -22,12 +22,7 @@ export class AuthModel extends Model {
   password: string;
 
   @Column({
-    type: DataType.ENUM(
-      AuthRoles.admin,
-      AuthRoles.passenger,
-      AuthRoles.staff,
-      AuthRoles.user,
-    ),
+    type: DataType.ENUM(...Object.values(AuthRoles)),
     defaultValue: AuthRoles.user,
   })
   role: string;
