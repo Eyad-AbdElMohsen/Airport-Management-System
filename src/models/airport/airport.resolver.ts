@@ -8,8 +8,8 @@ import { AuthRoles } from 'src/common/types/auth.type';
 import { AirportService } from './airport.service';
 import { CreateAirportInput } from './gql/create.input';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
+import { AirportQueryInput } from './gql/query.input';
 
 @UseGuards(AuthGuard)
 @Resolver(() => AirportModel)
@@ -28,7 +28,7 @@ export class AirportResolver {
   @Query(() => [Airport])
   async getAllAirports(
     @Args('query', ApiFeaturesPipe)
-    options: BaseQueryInput,
+    options: AirportQueryInput,
   ) {
     return await this.airtportService.getAllAirports(options);
   }

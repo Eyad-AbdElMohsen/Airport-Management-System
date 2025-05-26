@@ -3,13 +3,12 @@ import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
-import { GraphQLJSONObject } from 'graphql-type-json';
 import { FlightModel } from './flight.entity';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FlightService } from './flight.service';
 import { Flight } from './gql/flight.object';
 import { CreateFlightInput } from './gql/create.input';
+import { FlightQueryInput } from './gql/query.input';
 
 @UseGuards(AuthGuard)
 @Resolver(() => FlightModel)
@@ -31,7 +30,7 @@ export class FlightResolver {
 
   @Query(() => [Flight])
   async getAllFlights(
-    @Args('query', ApiFeaturesPipe) options: BaseQueryInput
+    @Args('query', ApiFeaturesPipe) options: FlightQueryInput
   ) {
     return await this.flightService.getAllFlights(options);
   }

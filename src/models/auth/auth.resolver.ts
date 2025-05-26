@@ -11,8 +11,8 @@ import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
+import { AuthQueryInput } from './gql/query.input';
 
 @Resolver(() => AuthModel)
 export class AuthResolver {
@@ -67,7 +67,7 @@ export class AuthResolver {
   @Roles(AuthRoles.admin)
   async getAllAuth(
     @Args('query', ApiFeaturesPipe)
-    options: BaseQueryInput,
+    options: AuthQueryInput,
   ): Promise<AuthModel[]> {
     return await this.authService.getAllAuth(options);
   }

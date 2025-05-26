@@ -14,7 +14,7 @@ import { AuthRoles } from 'src/common/types/auth.type';
 import { UpdateRoleInput } from './gql/update.input';
 import { Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { AuthQueryInput } from './gql/query.input';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,7 @@ export class AuthService {
     private readonly sequelize: Sequelize,
   ) {}
 
-  async getAllAuth(options: BaseQueryInput) {
+  async getAllAuth(options: AuthQueryInput) {
     return await this.authRepo.getAll(options);
   }
 

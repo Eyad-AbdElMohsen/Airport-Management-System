@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { staffRepo } from './staff.repository';
 import { CreateStaffInput } from './gql/create.input';
-import { DestroyOptions, FindOptions } from 'sequelize';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { DestroyOptions } from 'sequelize';
+import { StaffQueryInput } from './gql/query.input';
 
 @Injectable()
 export class StaffService {
@@ -19,7 +19,7 @@ export class StaffService {
     return (await this.staffRepo.create(authId, createStaffInput)).dataValues;
   }
 
-  async getAllStaff(options: BaseQueryInput) {
+  async getAllStaff(options: StaffQueryInput) {
     try {
       return await this.staffRepo.getAll(options);
     } catch (err) {

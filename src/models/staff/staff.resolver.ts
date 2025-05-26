@@ -10,8 +10,7 @@ import { CreateStaffInput } from './gql/create.input';
 import { GqlContext } from 'src/common/types/context.type';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
-import { FindOptions } from 'sequelize';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { StaffQueryInput } from './gql/query.input';
 
 @UseGuards(AuthGuard)
 @Resolver(() => StaffModel)
@@ -39,7 +38,7 @@ export class StaffResolver {
   @Roles(AuthRoles.staff, AuthRoles.admin)
   async getAllStaff(
     @Args('query', ApiFeaturesPipe)
-    options: BaseQueryInput,
+    options: StaffQueryInput,
   ) {
     return await this.staffService.getAllStaff(options);
   }

@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { BagRepo } from './bag.repository';
 import { CreateBagInput } from './gql/create.input';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { BagQueryInput } from './gql/query.input';
 
 @Injectable()

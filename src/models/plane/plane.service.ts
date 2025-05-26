@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { PlaneRepo } from './plane.repository';
 import { CreatePlaneInput } from './gql/create.input';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { PlaneQueryInput } from './gql/query.input';
 
 @Injectable()
 export class PlaneService {
@@ -36,7 +36,7 @@ export class PlaneService {
     return await this.planeRepo.getById(id);
   }
 
-  async getAllPlanes(options: BaseQueryInput) {
+  async getAllPlanes(options: PlaneQueryInput) {
     try {
       return await this.planeRepo.getAll(options);
     } catch (err) {

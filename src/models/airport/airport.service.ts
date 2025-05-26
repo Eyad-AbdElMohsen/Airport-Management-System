@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AirportRepo } from './airport.repository';
 import { CreateAirportInput } from './gql/create.input';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { AirportQueryInput } from './gql/query.input';
 
 @Injectable()
 export class AirportService {
@@ -22,7 +22,7 @@ export class AirportService {
     return airport;
   }
 
-  async getAllAirports(options: BaseQueryInput) {
+  async getAllAirports(options: AirportQueryInput) {
     try {
       return await this.airportRepo.getAll(options);
     } catch (err) {

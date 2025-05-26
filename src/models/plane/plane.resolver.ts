@@ -8,8 +8,8 @@ import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { CreatePlaneInput } from './gql/create.input';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { GraphQLJSONObject } from 'graphql-type-json';
+import { PlaneQueryInput } from './gql/query.input';
 
 @UseGuards(AuthGuard)
 @Resolver(() => PlaneModel)
@@ -30,7 +30,7 @@ export class PlaneResolver {
   }
 
   @Query(() => [Plane])
-  async getAllPlanes(@Args('query', ApiFeaturesPipe) options: BaseQueryInput) {
+  async getAllPlanes(@Args('query', ApiFeaturesPipe) options: PlaneQueryInput) {
     return await this.planeService.getAllPlanes(options);
   }
 

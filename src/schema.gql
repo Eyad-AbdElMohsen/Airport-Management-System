@@ -84,28 +84,23 @@ type Bag {
 }
 
 type Query {
-  getAllAuth(query: BaseQueryInput!): [Auth!]!
+  getAllAuth(query: AuthQueryInput!): [Auth!]!
   getMyAuthDetails: Auth!
   getAuthDetails(authId: Float!): Auth!
   getMyPassengerDetails: Passenger!
-  getAllPassengers(query: BaseQueryInput!): [Passenger!]!
-  getAllAirports(query: BaseQueryInput!): [Airport!]!
+  getAllPassengers(query: PassengerQueryInput!): [Passenger!]!
+  getAllAirports(query: AirportQueryInput!): [Airport!]!
   getAirportDetails(airportId: Float!): Airport!
   getMyStaffDetails: Staff!
-  getAllStaff(query: BaseQueryInput!): [Staff!]!
+  getAllStaff(query: StaffQueryInput!): [Staff!]!
   getPlane(planeId: Float!): Plane!
-  getAllPlanes(query: BaseQueryInput!): [Plane!]!
+  getAllPlanes(query: PlaneQueryInput!): [Plane!]!
   getFlight(flightId: Float!): Flight!
-  getAllFlights(query: BaseQueryInput!): [Flight!]!
+  getAllFlights(query: FlightQueryInput!): [Flight!]!
   getAllBags(query: BagQueryInput!): [Bag!]!
 }
 
-input BaseQueryInput {
-  page: Float
-  limit: Float
-}
-
-input BagQueryInput {
+input AuthQueryInput {
   page: Float
   limit: Float
   sort: String
@@ -116,6 +111,48 @@ input BagQueryInput {
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSONObject
+
+input PassengerQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+input AirportQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+input StaffQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+input PlaneQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+input FlightQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
+
+input BagQueryInput {
+  page: Float
+  limit: Float
+  sort: String
+  filters: JSONObject
+}
 
 type Mutation {
   signup(signupInput: SignupInput!): Auth!

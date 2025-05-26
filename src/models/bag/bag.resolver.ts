@@ -9,7 +9,6 @@ import { BagService } from './bag.service';
 import { Bag } from './gql/bag.object';
 import { CreateBagInput } from './gql/create.input';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
 import { BagQueryInput } from './gql/query.input';
 
 @Resolver(() => BagModel)

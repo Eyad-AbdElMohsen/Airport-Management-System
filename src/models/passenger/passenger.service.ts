@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { PassengerRepo } from './passenger.repository';
 import { UpdateMyPassengerDetailsInput } from './gql/update.input';
-import { DestroyOptions, WhereOptions } from 'sequelize';
+import { DestroyOptions } from 'sequelize';
 import { CreatePassengerInput } from './gql/create.input';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { PassengerQueryInput } from './gql/query.input';
 
 @Injectable()
 export class PassengerService {
@@ -30,7 +30,7 @@ export class PassengerService {
     return passenger;
   }
 
-  async getAllPassengers(options: BaseQueryInput) {
+  async getAllPassengers(options: PassengerQueryInput) {
     try {
       return await this.passengerRepo.getAll(options);
     } catch (err) {

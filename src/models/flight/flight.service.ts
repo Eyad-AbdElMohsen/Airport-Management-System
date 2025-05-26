@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { FlightRepo } from './flight.repository';
 import { CreateFlightInput } from './gql/create.input';
-import { BaseQueryInput } from 'src/common/inputs/BaseQuery.input';
+import { FlightQueryInput } from './gql/query.input';
 
 @Injectable()
 export class FlightService {
@@ -33,7 +33,7 @@ export class FlightService {
     return await this.flightRepo.getById(id);
   }
 
-  async getAllFlights(options: BaseQueryInput) {
+  async getAllFlights(options: FlightQueryInput) {
     return await this.flightRepo.getAll(options);
   }
 }
