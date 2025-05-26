@@ -7,9 +7,12 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { AuthModel } from '../auth/auth.entity';
 import { BagModel } from '../bag/bag.entity';
+import { BookingModel } from '../booking/booking.entity';
+import { FlightModel } from '../flight/flight.entity';
 
 @Table
 export class PassengerModel extends Model {
@@ -31,8 +34,14 @@ export class PassengerModel extends Model {
   @BelongsTo(() => AuthModel) // specify the relation between models
   auth: AuthModel;
 
-  @HasMany(()=> BagModel)
-  bag: BagModel
+  @HasMany(() => BagModel)
+  bags: BagModel[];
+
+  @HasMany(() => BookingModel)
+  bookings: BookingModel[];
+
+  @BelongsToMany(() => FlightModel, ()=> BookingModel)
+  flights: FlightModel[];
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;

@@ -83,6 +83,14 @@ type Bag {
   updatedAt: DateTime!
 }
 
+type Booking {
+  flightId: Int!
+  passengerId: Int!
+  seatId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getAllAuth(query: AuthQueryInput!): [Auth!]!
   getMyAuthDetails: Auth!
@@ -176,6 +184,7 @@ type Mutation {
   createFlightAssignment(createFlightAssignmentInput: CreateFlightAssignmentInput!): FlightAssignment!
   deletFlightAssignment(deleteFlightAssignmentInput: DeleteFlightAssignmentInput!): JSONObject!
   createBag(createBagInput: CreateBagInput!): Bag!
+  createBooking(createBookingInput: CreateBookingInput!): Booking!
 }
 
 input SignupInput {
@@ -249,4 +258,9 @@ input CreateBagInput {
   passengerId: Int!
   type: String!
   status: String!
+}
+
+input CreateBookingInput {
+  flightId: Int!
+  seatId: Int!
 }

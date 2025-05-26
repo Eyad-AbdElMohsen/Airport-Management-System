@@ -9,5 +9,6 @@ import { FlightRepo } from './flight.repository';
 @Module({
   imports: [SequelizeModule.forFeature([FlightModel])],
   providers: [FlightResolver, FlightService, FlightRepo, JWT],
+  exports: [FlightRepo],
 })
 export class FlightModule {}

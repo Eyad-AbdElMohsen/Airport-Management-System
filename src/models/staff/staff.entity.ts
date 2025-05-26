@@ -1,6 +1,7 @@
 import { CreationOptional } from 'sequelize';
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -12,6 +13,7 @@ import { AuthModel } from '../auth/auth.entity';
 import { AirportModel } from '../airport/airport.entity';
 import { StaffRoles } from 'src/common/types/staff.type';
 import { FlightAssignmentModel } from '../flightAssignment/flightAssignment.entity';
+import { FlightModel } from '../flight/flight.entity';
 
 @Table
 export class StaffModel extends Model {
@@ -39,8 +41,11 @@ export class StaffModel extends Model {
   @BelongsTo(() => AirportModel)
   airport: AirportModel;
 
-  @HasMany(()=> FlightAssignmentModel)
-  flightAssignment: FlightAssignmentModel
+  @HasMany(() => FlightAssignmentModel)
+  flightAssignment: FlightAssignmentModel[];
+
+  @BelongsToMany(() => FlightModel, ()=> FlightAssignmentModel)
+  flights: FlightModel[];
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;

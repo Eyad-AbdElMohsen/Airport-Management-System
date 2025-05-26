@@ -15,6 +15,7 @@ import { FlightModule } from './models/flight/flight.module';
 import { SeatModule } from './models/seat/seat.module';
 import { FlightAssignmentModule } from './models/flightAssignment/flightAssignment.module';
 import { BagModule } from './models/bag/bag.module';
+import { BookingModule } from './models/booking/booking.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { BagModule } from './models/bag/bag.module';
     SeatModule,
     FlightAssignmentModule,
     BagModule,
+    BookingModule
   ],
   controllers: [],
   providers: [

@@ -1,6 +1,7 @@
 import { CreationOptional } from 'sequelize';
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -13,6 +14,9 @@ import { AirportModel } from '../airport/airport.entity';
 import { PlaneModel } from '../plane/plane.entity';
 import { FlightAssignmentModel } from '../flightAssignment/flightAssignment.entity';
 import { BagModel } from '../bag/bag.entity';
+import { BookingModel } from '../booking/booking.entity';
+import { StaffModel } from '../staff/staff.entity';
+import { PassengerModel } from '../passenger/passenger.entity';
 
 @Table
 export class FlightModel extends Model {
@@ -59,10 +63,19 @@ export class FlightModel extends Model {
   arrivalTime: Date;
 
   @HasMany(() => FlightAssignmentModel)
-  flightAssignment: FlightAssignmentModel;
+  flightAssignment: FlightAssignmentModel[];
+
+  @BelongsToMany(() => PassengerModel, () => BookingModel)
+  passengers: PassengerModel[];
+
+  @BelongsToMany(() => StaffModel, ()=> FlightAssignmentModel)
+  staff: StaffModel[]
+
+  @HasMany(() => BookingModel)
+  booking: BookingModel[];
 
   @HasMany(() => BagModel)
-  bag: BagModel;
+  bag: BagModel[];
 
   @Column({ type: DataType.DATE })
   declare createdAt: CreationOptional<Date>;
