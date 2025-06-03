@@ -16,11 +16,18 @@ import { SeatModule } from './models/seat/seat.module';
 import { FlightAssignmentModule } from './models/flightAssignment/flightAssignment.module';
 import { BagModule } from './models/bag/bag.module';
 import { BookingModule } from './models/booking/booking.module';
+import { Sequelize } from 'sequelize-typescript';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    GraphQLModule.forRoot(gqlConfig),
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      imports: [SequelizeModule],
+      useFactory: async (sequelize: Sequelize) => gqlConfig(sequelize),
+      inject: [Sequelize],
+    }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       ...dbConfig,
@@ -34,7 +41,7 @@ import { BookingModule } from './models/booking/booking.module';
     SeatModule,
     FlightAssignmentModule,
     BagModule,
-    BookingModule
+    BookingModule,
   ],
   controllers: [],
   providers: [

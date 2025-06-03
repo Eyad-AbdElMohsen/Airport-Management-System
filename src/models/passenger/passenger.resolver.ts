@@ -1,4 +1,12 @@
-import { Args, Context, Mutation, Query } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { PassengerService } from './passenger.service';
 import { PassengerModel } from './passenger.entity';
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
@@ -12,8 +20,11 @@ import { GraphQLJSONObject } from 'graphql-type-json';
 import { CreatePassengerInput } from './gql/create.input';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
 import { PassengerQueryInput } from './gql/query.input';
+import { Bag } from '../bag/gql/bag.object';
+import { Booking } from '../booking/gql/booking.object';
 
 @UseGuards(AuthGuard)
+@Resolver(()=> Passenger)
 export class PassengerResolver {
   constructor(private readonly passengerService: PassengerService) {}
 
@@ -73,5 +84,21 @@ export class PassengerResolver {
   @Roles(AuthRoles.admin)
   async deletePassenger(@Args('id', ParseIntPipe) id: number) {
     return await this.passengerService.deletePassenger(id, false);
+  }
+
+  @ResolveField(() => [Bag])
+  async bag(
+    @Parent() passenger: Passenger,
+    @Context() { loaders }: GqlContext,
+  ) {
+    return loaders.passenger.bagLoader.load(passenger.id);
+  }
+
+  @ResolveField(() => [Booking])
+  async booking(
+    @Parent() passenger: Passenger,
+    @Context() { loaders }: GqlContext,
+  ) {
+    return loaders.passenger.bookingLoader.load(passenger.id);
   }
 }

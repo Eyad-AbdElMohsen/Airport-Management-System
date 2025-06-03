@@ -18,7 +18,6 @@ export class FlightAssignmentRepo {
   }
 
   async getByIds(ids: CreateFlightAssignmentInput) {
-    console.log({ ...ids });
     return await this.flightAssignmentModel.findOne({
       where: { ...ids },
       raw: true,

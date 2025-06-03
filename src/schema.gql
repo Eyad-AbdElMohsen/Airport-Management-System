@@ -23,6 +23,27 @@ type Passenger {
   authId: Int!
   createdAt: DateTime
   updatedAt: DateTime
+  bag: [Bag!]!
+  booking: [Booking!]!
+}
+
+type Bag {
+  id: Int!
+  flightId: Int!
+  passengerId: Int!
+  type: String!
+  status: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Booking {
+  flightId: Int!
+  passengerId: Int!
+  seatId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  seat: Seat!
 }
 
 type Airport {
@@ -33,6 +54,7 @@ type Airport {
   code: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  staff: [Staff!]!
 }
 
 type Staff {
@@ -64,6 +86,8 @@ type Flight {
   arrivalTime: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
+  bag: [Bag!]!
+  booking: [Booking!]!
 }
 
 type FlightAssignment {
@@ -73,20 +97,9 @@ type FlightAssignment {
   updatedAt: DateTime!
 }
 
-type Bag {
+type Seat {
   id: Int!
-  flightId: Int!
-  passengerId: Int!
-  type: String!
-  status: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type Booking {
-  flightId: Int!
-  passengerId: Int!
-  seatId: Int!
+  seatCode: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

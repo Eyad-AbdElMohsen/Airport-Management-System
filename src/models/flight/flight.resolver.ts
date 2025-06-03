@@ -3,15 +3,25 @@ import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { Roles } from 'src/common/decorators/roles.decoratore';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
-import { FlightModel } from './flight.entity';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { FlightService } from './flight.service';
 import { Flight } from './gql/flight.object';
 import { CreateFlightInput } from './gql/create.input';
 import { FlightQueryInput } from './gql/query.input';
+import { Bag } from '../bag/gql/bag.object';
+import { GqlContext } from 'src/common/types/context.type';
+import { Booking } from '../booking/gql/booking.object';
 
 @UseGuards(AuthGuard)
-@Resolver(() => FlightModel)
+@Resolver(() => Flight)
 export class FlightResolver {
   constructor(private readonly flightService: FlightService) {}
 
@@ -30,8 +40,18 @@ export class FlightResolver {
 
   @Query(() => [Flight])
   async getAllFlights(
-    @Args('query', ApiFeaturesPipe) options: FlightQueryInput
+    @Args('query', ApiFeaturesPipe) options: FlightQueryInput,
   ) {
     return await this.flightService.getAllFlights(options);
+  }
+
+  @ResolveField(() => [Bag])
+  async bag(@Parent() flight: Flight, @Context() { loaders }: GqlContext) {
+    return loaders.flight.bagLoader.load(flight.id);
+  }
+
+  @ResolveField(() => [Booking])
+  async booking(@Parent() flight: Flight, @Context() { loaders }: GqlContext) {
+    return loaders.flight.bookingLoader.load(flight.id);
   }
 }
