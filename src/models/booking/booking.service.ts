@@ -1,9 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { BookingRepo } from './booking.repository';
 import { CreateBookingInput } from './gql/create.input';
 import { FlightRepo } from '../flight/flight.repository';
 import { SeatRepo } from '../seat/seat.repository';
 import { PassengerRepo } from '../passenger/passenger.repository';
+import { BookingQueryInput } from './gql/query.input';
 
 @Injectable()
 export class BookingService {
@@ -15,6 +20,7 @@ export class BookingService {
   ) {}
 
   async createBooking(authId: number, createBookingInput: CreateBookingInput) {
+    // 0% Performance :)
     const passenger = await this.passengerRepo.getByAuthId(authId);
     if (!passenger) {
       throw new BadRequestException(
@@ -23,7 +29,7 @@ export class BookingService {
     }
 
     const { flightId, seatId } = createBookingInput;
-    const passengerId = passenger.id
+    const passengerId = passenger.id;
 
     const isSeatNotAvailable = await this.bookingRepo.getSeatInSpecificFlight(
       seatId,
@@ -52,6 +58,19 @@ export class BookingService {
       );
     }
 
-    return (await this.bookingRepo.create(createBookingInput, passengerId)).dataValues;
+    return (await this.bookingRepo.create(createBookingInput, passengerId))
+      .dataValues;
+  }
+
+  async getAllBookingForFlight(flightId: number, options: BookingQueryInput) {
+    const isFlightExist = await this.flightRepo.getById(flightId);
+    if (!isFlightExist) throw new NotFoundException('No Flight Found!');
+    return await this.bookingRepo.getAllByFlightId(flightId, options);
+  }
+
+  async deleteBooking(flightId: number, passengerId: number) {
+    const res = await this.bookingRepo.delete(flightId, passengerId);
+    if (!res) throw new NotFoundException('No Booking Found');
+    return { message: 'Booking Deleted Successfully!' };
   }
 }
