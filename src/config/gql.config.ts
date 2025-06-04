@@ -7,6 +7,13 @@ import { GqlContext } from 'src/common/types/context.type';
 export const gqlConfig = (sequelize: Sequelize): ApolloDriverConfig => ({
   driver: ApolloDriver,
   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+  installSubscriptionHandlers: true,
+  subscriptions: {
+    'graphql-ws': {
+      path: '/graphql',
+    },
+    'subscriptions-transport-ws': true,
+  },
   context: ({ req, res }): GqlContext => ({
     req,
     res,
