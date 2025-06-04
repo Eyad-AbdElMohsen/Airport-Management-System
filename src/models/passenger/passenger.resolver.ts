@@ -24,7 +24,7 @@ import { Bag } from '../bag/gql/bag.object';
 import { Booking } from '../booking/gql/booking.object';
 
 @UseGuards(AuthGuard)
-@Resolver(()=> Passenger)
+@Resolver(() => Passenger)
 export class PassengerResolver {
   constructor(private readonly passengerService: PassengerService) {}
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { JWT } from 'src/common/utils/jwt';
 import { BookingModel } from './booking.entity';
@@ -12,10 +12,11 @@ import { PassengerModule } from '../passenger/passenger.module';
 @Module({
   imports: [
     SequelizeModule.forFeature([BookingModel]),
+    forwardRef(() => FlightModule),
     SeatModule,
-    FlightModule,
-    PassengerModule
+    PassengerModule,
   ],
   providers: [BookingResolver, BookingService, BookingRepo, JWT],
+  exports: [BookingRepo],
 })
 export class BookingModule {}

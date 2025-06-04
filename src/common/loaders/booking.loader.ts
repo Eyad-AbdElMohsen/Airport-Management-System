@@ -10,7 +10,6 @@ export const createBookingLoader = (sequelize: Sequelize) => ({
       raw: true, 
     });
 
-    
     const seatMap = new Map<number, SeatModel>();
     seats.forEach((seat) => seatMap.set(seat.id, seat));
 

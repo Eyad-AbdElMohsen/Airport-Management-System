@@ -90,16 +90,16 @@ type Flight {
   booking: [Booking!]!
 }
 
-type FlightAssignment {
-  flightId: Int!
-  staffId: Int!
+type Seat {
+  id: Int!
+  seatCode: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-type Seat {
-  id: Int!
-  seatCode: String!
+type FlightAssignment {
+  flightId: Int!
+  staffId: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -118,8 +118,9 @@ type Query {
   getAllPlanes(query: PlaneQueryInput!): [Plane!]!
   getFlight(flightId: Float!): Flight!
   getAllFlights(query: FlightQueryInput!): [Flight!]!
-  getAllBags(query: BagQueryInput!): [Bag!]!
+  getAllAvailableSeatsInFlight(flightId: Float!): [Seat!]!
   getAllBookingForFlight(query: BookingQueryInput!, flightId: Float!): [Booking!]!
+  getAllBags(query: BagQueryInput!): [Bag!]!
 }
 
 input AuthQueryInput {
@@ -169,14 +170,14 @@ input FlightQueryInput {
   filters: JSONObject
 }
 
-input BagQueryInput {
+input BookingQueryInput {
   page: Float
   limit: Float
   sort: String
   filters: JSONObject
 }
 
-input BookingQueryInput {
+input BagQueryInput {
   page: Float
   limit: Float
   sort: String
@@ -202,11 +203,11 @@ type Mutation {
   createPlane(createPlaneInput: CreatePlaneInput!): Plane!
   deletePlane(planeId: Float!): JSONObject!
   createFlight(createFlightInput: CreateFlightInput!): Flight!
+  createBooking(createBookingInput: CreateBookingInput!): Booking!
+  deleteBooking(flightId: Float!, passengerId: Float!): JSONObject!
   createFlightAssignment(createFlightAssignmentInput: CreateFlightAssignmentInput!): FlightAssignment!
   deletFlightAssignment(deleteFlightAssignmentInput: DeleteFlightAssignmentInput!): JSONObject!
   createBag(createBagInput: CreateBagInput!): Bag!
-  createBooking(createBookingInput: CreateBookingInput!): Booking!
-  deleteBooking(flightId: Float!, passengerId: Float!): JSONObject!
 }
 
 input SignupInput {
@@ -265,6 +266,11 @@ input CreateFlightInput {
   arrivalTime: DateTime!
 }
 
+input CreateBookingInput {
+  flightId: Int!
+  seatId: Int!
+}
+
 input CreateFlightAssignmentInput {
   flightId: Int!
   staffId: Int!
@@ -280,9 +286,4 @@ input CreateBagInput {
   passengerId: Int!
   type: String!
   status: String!
-}
-
-input CreateBookingInput {
-  flightId: Int!
-  seatId: Int!
 }

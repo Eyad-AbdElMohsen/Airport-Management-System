@@ -19,6 +19,7 @@ import { FlightQueryInput } from './gql/query.input';
 import { Bag } from '../bag/gql/bag.object';
 import { GqlContext } from 'src/common/types/context.type';
 import { Booking } from '../booking/gql/booking.object';
+import { Seat } from '../seat/gql/seat.object';
 
 @UseGuards(AuthGuard)
 @Resolver(() => Flight)
@@ -43,6 +44,13 @@ export class FlightResolver {
     @Args('query', ApiFeaturesPipe) options: FlightQueryInput,
   ) {
     return await this.flightService.getAllFlights(options);
+  }
+
+  @Query(() => [Seat])
+  async getAllAvailableSeatsInFlight(
+    @Args('flightId', ParseIntPipe) flightId: number,
+  ) {
+    return await this.flightService.getAllAvailableSeatsInFlight(flightId)
   }
 
   @ResolveField(() => [Bag])

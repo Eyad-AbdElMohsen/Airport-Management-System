@@ -21,7 +21,6 @@ export class SeatModel extends Model {
   @ForeignKey(() => PlaneModel)
   @Column({ type: DataType.INTEGER })
   planeId: number;
-
   @BelongsTo(() => PlaneModel)
   plane: PlaneModel;
 

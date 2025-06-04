@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { BookingModel } from './booking.entity';
 import { CreateBookingInput } from './gql/create.input';
 import { FindOptions } from 'sequelize';
+import { SeatModel } from '../seat/seat.entity';
 
 @Injectable()
 export class BookingRepo {
@@ -49,6 +50,18 @@ export class BookingRepo {
   async delete(flightId: number, passengerId: number) {
     return await this.bookingModel.destroy({
       where: { flightId, passengerId },
+    });
+  }
+
+  async getBookedSeatsByFlightId(flightId: number){
+     return await this.bookingModel.findAll({
+      where: {
+        flightId,
+      },
+      include: {
+        model: SeatModel,
+        attributes: ['id', 'seatCode'],
+      }
     });
   }
 }

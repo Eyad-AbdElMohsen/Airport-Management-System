@@ -21,10 +21,10 @@ export class PlaneModel extends Model {
   name: string;
 
   @HasMany(() => FlightModel)
-  flight: FlightModel[];
+  flights: FlightModel[];
 
   @HasMany(() => SeatModel)
-  seat: SeatModel[];
+  seats: SeatModel[];
 
   @AfterCreate
   static async createSeats(instance: PlaneModel, options: any) {
@@ -47,7 +47,7 @@ export class PlaneModel extends Model {
           });
         }
       }
-      await SeatModel.bulkCreate(seats, {transaction});
+      await SeatModel.bulkCreate(seats, { transaction });
       await transaction.commit();
     } catch (err) {
       console.log('Error in creating Seats hook: ', err);
