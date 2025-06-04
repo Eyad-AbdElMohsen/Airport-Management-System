@@ -1,10 +1,11 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
-import { FindOptions } from 'sequelize';
+import { FindOptions, where } from 'sequelize';
 import { FlightModel } from './flight.entity';
 import { CreateFlightInput } from './gql/create.input';
 import { PlaneModel } from '../plane/plane.entity';
 import { SeatModel } from '../seat/seat.entity';
+import { UpdateFlightStatusInput } from './gql/update.input';
 
 @Injectable()
 export class FlightRepo {
@@ -40,5 +41,13 @@ export class FlightRepo {
         },
       ],
     });
+  }
+
+  async update(updateFlightStatus: UpdateFlightStatusInput) {
+    const id = updateFlightStatus.id;
+    return this.flightModel.update(
+      { ...updateFlightStatus },
+      { where: { id }, returning: true },
+    );
   }
 }

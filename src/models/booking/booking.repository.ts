@@ -19,8 +19,8 @@ export class BookingRepo {
     });
   }
 
-  async getAllByFlightId(flightId: number, options: FindOptions) {
-    options.raw = true;
+  async getAllByFlightId(flightId: number, options?: FindOptions) {
+    if (options) options.raw = true;
     return await this.bookingModel.findAll({
       where: {
         flightId,
@@ -53,15 +53,15 @@ export class BookingRepo {
     });
   }
 
-  async getBookedSeatsByFlightId(flightId: number){
-     return await this.bookingModel.findAll({
+  async getBookedSeatsByFlightId(flightId: number) {
+    return await this.bookingModel.findAll({
       where: {
         flightId,
       },
       include: {
         model: SeatModel,
         attributes: ['id', 'seatCode'],
-      }
+      },
     });
   }
 }

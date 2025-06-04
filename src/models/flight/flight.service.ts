@@ -1,5 +1,8 @@
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,12 +11,15 @@ import { CreateFlightInput } from './gql/create.input';
 import { FlightQueryInput } from './gql/query.input';
 import { BookingRepo } from '../booking/booking.repository';
 import { SeatModel } from '../seat/seat.entity';
+import { UpdateFlightStatusInput } from './gql/update.input';
+import { PubSub } from 'graphql-subscriptions';
 
 @Injectable()
 export class FlightService {
   constructor(
     private readonly flightRepo: FlightRepo,
     private readonly bookingRepo: BookingRepo,
+    @Inject('PUB_SUB') private pubSub: PubSub,
   ) {}
 
   async createFlight(createFlightInput: CreateFlightInput) {
@@ -65,11 +71,37 @@ export class FlightService {
 
     if (!allSeats || !unAvailableSeats)
       throw new NotFoundException('No Flight Found');
-    
+
     const availableSeats = allSeats.filter(
       (seat: SeatModel) => !unAvailableSeats.includes(seat.id),
     );
 
     return availableSeats;
+  }
+
+  async updateFlightStatus(updateFlightStatusInput: UpdateFlightStatusInput) {
+    const [count, row] = await this.flightRepo.update(updateFlightStatusInput);
+    if (!count)
+      throw new HttpException(
+        'No thing updated',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+
+    const updatedData = row[0].dataValues;
+    const bookings = (
+      await this.bookingRepo.getAllByFlightId(
+        updateFlightStatusInput.id,
+      )
+    ).map((booking) => booking.dataValues);
+
+    for (const booking of bookings) {
+      this.pubSub.publish('flightStatusUpdated', {
+        flightStatusUpdated: updatedData,
+        flightId: updatedData.id,
+        passengerId: booking.passengerId,
+      });
+    }
+
+    return updatedData
   }
 }

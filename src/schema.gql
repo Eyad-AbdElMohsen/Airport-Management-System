@@ -203,6 +203,7 @@ type Mutation {
   createPlane(createPlaneInput: CreatePlaneInput!): Plane!
   deletePlane(planeId: Float!): JSONObject!
   createFlight(createFlightInput: CreateFlightInput!): Flight!
+  updateFlightStatus(updateFlightStatusInput: UpdateFlightStatusInput!): Flight!
   createBooking(createBookingInput: CreateBookingInput!): Booking!
   deleteBooking(flightId: Float!, passengerId: Float!): JSONObject!
   createFlightAssignment(createFlightAssignmentInput: CreateFlightAssignmentInput!): FlightAssignment!
@@ -267,6 +268,13 @@ input CreateFlightInput {
   arrivalTime: DateTime!
 }
 
+input UpdateFlightStatusInput {
+  id: Int!
+  status: String!
+  departureTime: DateTime
+  arrivalTime: DateTime
+}
+
 input CreateBookingInput {
   flightId: Int!
   seatId: Int!
@@ -296,5 +304,6 @@ input UpdateBagStatusInput {
 }
 
 type Subscription {
+  flightStatusUpdated(passengerId: Float!, flightId: Float!): Flight!
   statusUpdated(passengerId: Float!): Bag!
 }
