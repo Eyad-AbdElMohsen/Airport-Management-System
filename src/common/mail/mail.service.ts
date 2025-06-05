@@ -25,7 +25,7 @@ export class MailService {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Bag Status Updated',
-      html: `<p>Your Bag <strong>${bagId}</strong> Status is updated to: <strong>${status}</strong></p>`,
+      html: `<p>Your Bag with id <strong>${bagId}</strong> Status is updated to: <strong>${status}</strong></p>`,
     });
   }
 
@@ -36,11 +36,11 @@ export class MailService {
   ) {
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Bag Status Updated',
+      subject: 'Flight Status Updated',
       html: `
-      <p>Your Bag <strong>${flightId}</strong> Status is updated to: </p>
+      <p>Your flight with id <strong>${flightId}</strong> Status is updated to: </p>
       <ul>
-        ${Object.entries(payload).map(([key, val]) => `<li><strong>${key}</strong>: ${val}</li>`)} 
+        ${Object.entries(payload).map(([key, val]) => val && `<li><strong>${key}</strong>: ${val}</li>`)} 
       </ul>
       `,
     });
