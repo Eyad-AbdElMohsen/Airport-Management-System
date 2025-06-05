@@ -13,12 +13,18 @@ import { BookingRepo } from '../booking/booking.repository';
 import { SeatModel } from '../seat/seat.entity';
 import { UpdateFlightStatusInput } from './gql/update.input';
 import { PubSub } from 'graphql-subscriptions';
+import { FlightModel } from './flight.entity';
+import { AuthRepo } from '../auth/auth.repository';
+import { BookingModel } from '../booking/booking.entity';
+import { MailService } from 'src/common/mail/mail.service';
 
 @Injectable()
 export class FlightService {
   constructor(
     private readonly flightRepo: FlightRepo,
+    private readonly authRepo: AuthRepo,
     private readonly bookingRepo: BookingRepo,
+    private readonly mailService: MailService,
     @Inject('PUB_SUB') private pubSub: PubSub,
   ) {}
 
@@ -87,11 +93,9 @@ export class FlightService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
 
-    const updatedData = row[0].dataValues;
-    const bookings = (
-      await this.bookingRepo.getAllByFlightId(
-        updateFlightStatusInput.id,
-      )
+    const updatedData: FlightModel = row[0].dataValues;
+    const bookings: BookingModel[] = (
+      await this.bookingRepo.getAllByFlightId(updateFlightStatusInput.id)
     ).map((booking) => booking.dataValues);
 
     for (const booking of bookings) {
@@ -102,6 +106,19 @@ export class FlightService {
       });
     }
 
-    return updatedData
+    const passengerIds = bookings.map((booking) => booking.passengerId);
+    const auths = await this.authRepo.getAuthsByPassengerIds(passengerIds);
+
+    Promise.all(
+      auths.map((auth) =>
+        this.mailService.notifyPassengerFlightStatus(
+          auth.dataValues.email,
+          updatedData.id,
+          updateFlightStatusInput,
+        ),
+      ),
+    );
+
+    return updatedData;
   }
 }

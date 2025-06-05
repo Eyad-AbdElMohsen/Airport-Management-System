@@ -186,6 +186,7 @@ input BagQueryInput {
 
 type Mutation {
   signup(signupInput: SignupInput!): Auth!
+  verifyAuth(verfyInput: VerifyInput!): Boolean!
   login(loginInput: LoginInput!): JSONObject!
   updateMyAuth(updateMyAuthInput: UpdateRoleInput!): Auth!
   updateRole(updateRoleInput: UpdateRoleInput!, authId: Float!): Auth!
@@ -216,6 +217,11 @@ input SignupInput {
   email: String!
   password: String!
   role: String!
+}
+
+input VerifyInput {
+  email: String!
+  code: String!
 }
 
 input LoginInput {

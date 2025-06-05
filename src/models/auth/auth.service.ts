@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -12,9 +13,11 @@ import { LoginInput } from './gql/login.input';
 import { JWT } from 'src/common/utils/jwt';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { UpdateRoleInput } from './gql/update.input';
-import { Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { AuthQueryInput } from './gql/query.input';
+import { randomBytes } from 'crypto';
+import { MailService } from 'src/common/mail/mail.service';
+import { VerifyInput } from './gql/verify.input';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +25,7 @@ export class AuthService {
     private readonly authRepo: AuthRepo,
     private readonly jwt: JWT,
     private readonly sequelize: Sequelize,
+    private readonly mailService: MailService,
   ) {}
 
   async getAllAuth(options: AuthQueryInput) {
@@ -42,9 +46,30 @@ export class AuthService {
     const hashedPass = await hash(signupInput.password, 10);
     signupInput.password = hashedPass;
 
-    const transaction: Transaction = await this.sequelize.transaction();
-    return (await this.authRepo.create(signupInput)).dataValues;
+    const verificationCode = randomBytes(3).toString('hex'); // 6-digit hex string
 
+    const auth = (
+      await this.authRepo.create(signupInput, false, verificationCode)
+    ).dataValues;
+
+    await this.mailService.sendVerificationCode(auth.email, verificationCode);
+    return auth;
+  }
+
+  async verifyAuth(verifyInput: VerifyInput) {
+    const auth = await this.getAuthByEmail(verifyInput.email);
+    if (!auth) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    if (auth.isVerified) throw new BadRequestException('Already Verified!');
+
+    if (verifyInput.code !== auth.verificationCode) {
+      throw new UnauthorizedException('Verification Code is not correct!');
+    }
+
+    await this.authRepo.updateVerification(auth.id);
+    return true;
   }
 
   async login(loginInput: LoginInput) {
@@ -57,6 +82,12 @@ export class AuthService {
     if (!isPassValid) {
       throw new UnauthorizedException('Invalid email or password');
     }
+
+    const isVerified = auth.isVerified;
+    if (!isVerified) {
+      throw new UnauthorizedException('Email is not verfied!');
+    }
+
     const tokens = this.jwt.generateJwtToken({
       id: auth.id,
       role: auth.role as AuthRoles,
@@ -68,7 +99,7 @@ export class AuthService {
   async updateAuth(id: number, updateMyAuthInput: UpdateRoleInput) {
     await this.getAuthById(id);
 
-    const [count, row] = await this.authRepo.update(id, updateMyAuthInput);
+    const [count, row] = await this.authRepo.updateRole(id, updateMyAuthInput);
     if (!count)
       throw new HttpException(
         'No thing updated',

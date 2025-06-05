@@ -6,6 +6,8 @@ import {
   DataType,
   HasOne,
   AfterCreate,
+  Default,
+  AllowNull,
 } from 'sequelize-typescript';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { PassengerModel } from '../passenger/passenger.entity';
@@ -26,6 +28,13 @@ export class AuthModel extends Model {
     defaultValue: AuthRoles.user,
   })
   role: string;
+
+  @Default(false)
+  @Column({ type: DataType.BOOLEAN })
+  isVerified: boolean;
+
+  @Column({ type: DataType.STRING })
+  verificationCode: string;
 
   @HasOne(() => PassengerModel)
   passenger: PassengerModel;

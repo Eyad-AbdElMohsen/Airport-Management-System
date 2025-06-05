@@ -3,14 +3,16 @@ import { AuthModel } from './auth.entity';
 import { SignupInput } from './gql/signup.input';
 import { Injectable } from '@nestjs/common';
 import { UpdateRoleInput } from './gql/update.input';
-import { FindOptions, Transaction } from 'sequelize';
+import { FindOptions } from 'sequelize';
+import { PassengerModel } from '../passenger/passenger.entity';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class AuthRepo {
   constructor(@InjectModel(AuthModel) private authModel: typeof AuthModel) {}
 
   async getAll(options: FindOptions) {
-    options.raw = true
+    options.raw = true;
     return await this.authModel.findAll(options);
   }
 
@@ -22,11 +24,19 @@ export class AuthRepo {
     return await this.authModel.findOne({ where: { email }, raw: true });
   }
 
-  async create(signupInput: SignupInput) {
-    return await this.authModel.create({ ...signupInput });
+  async create(
+    signupInput: SignupInput,
+    isVerified: boolean,
+    verificationCode: string,
+  ) {
+    return await this.authModel.create({
+      ...signupInput,
+      isVerified,
+      verificationCode,
+    });
   }
 
-  async update(id: number, updateMyAuthInput: UpdateRoleInput) {
+  async updateRole(id: number, updateMyAuthInput: UpdateRoleInput) {
     return await this.authModel.update(
       {
         ...updateMyAuthInput,
@@ -38,7 +48,36 @@ export class AuthRepo {
     );
   }
 
+  async updateVerification(id: number) {
+    return await this.authModel.update(
+      {
+        isVerified: true,
+      },
+      {
+        where: { id },
+      },
+    );
+  }
+
   async delete(id: number) {
     return await this.authModel.destroy({ where: { id } });
+  }
+
+  async getAuthByPassengerId(passengerId: number) {
+    return await this.authModel.findOne({
+      include: {
+        model: PassengerModel,
+        where: { id: passengerId },
+      },
+    });
+  }
+
+  async getAuthsByPassengerIds(passengerIds: number[]) {
+    return this.authModel.findAll({
+      include: {
+        model: PassengerModel,
+        where: { id: { [Op.in]: passengerIds } },
+      },
+    });
   }
 }

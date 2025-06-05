@@ -6,9 +6,16 @@ import { BagService } from './bag.service';
 import { BagResolver } from './bag.resolver';
 import { BagRepo } from './bag.repository';
 import { SharedModule } from 'src/common/shared/shared.module';
+import { MailModule } from 'src/common/mail/mail.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([BagModel]), SharedModule],
+  imports: [
+    SequelizeModule.forFeature([BagModel]),
+    SharedModule,
+    AuthModule,
+    MailModule,
+  ],
   providers: [BagResolver, BagService, BagRepo, JWT],
 })
 export class BagModule {}

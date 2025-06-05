@@ -13,6 +13,7 @@ import { AuthRoles } from 'src/common/types/auth.type';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { ApiFeaturesPipe } from 'src/common/pipes/apiFeature.pipe';
 import { AuthQueryInput } from './gql/query.input';
+import { VerifyInput } from './gql/verify.input';
 
 @Resolver(() => AuthModel)
 export class AuthResolver {
@@ -23,6 +24,11 @@ export class AuthResolver {
     @Args('signupInput') signupInput: SignupInput,
   ): Promise<AuthModel> {
     return await this.authService.signup(signupInput);
+  }
+
+  @Mutation(() => Boolean)
+  async verifyAuth(@Args('verfyInput') verfyInput: VerifyInput) {
+    return await this.authService.verifyAuth(verfyInput);
   }
 
   @Mutation(() => GraphQLJSONObject)
