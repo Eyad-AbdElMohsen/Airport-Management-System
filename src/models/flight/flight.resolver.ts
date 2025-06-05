@@ -23,12 +23,17 @@ import { Booking } from '../booking/gql/booking.object';
 import { Seat } from '../seat/gql/seat.object';
 import { UpdateFlightStatusInput } from './gql/update.input';
 import { PubSub } from 'graphql-subscriptions';
+import { JwtPayload } from 'src/common/types/JwtPayload';
+import { PassengerService } from '../passenger/passenger.service';
+import { BookingService } from '../booking/booking.service';
 
 @Resolver(() => Flight)
 export class FlightResolver {
   constructor(
     private readonly flightService: FlightService,
     @Inject('PUB_SUB') private pubSub: PubSub,
+    // private readonly passengerService: PassengerService,
+    // private readonly bookingServiec: BookingService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -85,10 +90,20 @@ export class FlightResolver {
   }
 
   @Subscription(() => Flight, {
-    filter: (payload, variables) => {
+    filter: async (payload, variables, context) => {
+      // issue in (this)
+      // const user = context.extra.user as JwtPayload;
+      // const passenger = await this.passengerService.getPassengerByAuthId(
+      //   user.id,
+      // );
+      // const isBooking = await this.bookingServiec.checkPassengerBooking(
+      //   payload.flightId,
+      //   passenger.id,
+      // );
       return (
         payload.passengerId === variables.passengerId &&
-        payload.flightId === variables.flightId
+        payload.flightId === variables.flightId 
+        // && isBooking
       );
     },
   })

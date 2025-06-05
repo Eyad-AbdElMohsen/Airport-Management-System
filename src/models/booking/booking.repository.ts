@@ -35,6 +35,7 @@ export class BookingRepo {
         passengerId,
         flightId,
       },
+      raw: true,
     });
   }
 
@@ -44,6 +45,7 @@ export class BookingRepo {
         seatId,
         flightId,
       },
+      raw: true,
     });
   }
 

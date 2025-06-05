@@ -17,6 +17,6 @@ import { PassengerModule } from '../passenger/passenger.module';
     PassengerModule,
   ],
   providers: [BookingResolver, BookingService, BookingRepo, JWT],
-  exports: [BookingRepo],
+  exports: [BookingRepo, BookingService],
 })
 export class BookingModule {}

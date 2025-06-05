@@ -68,6 +68,16 @@ export class BookingService {
     return await this.bookingRepo.getAllByFlightId(flightId, options);
   }
 
+  async checkPassengerBooking(flightId: number, passengerId: number){
+    const passenger = await this.bookingRepo.getPassengerInSpecificFlight(passengerId, flightId)
+    if (!passenger) {
+      throw new NotFoundException(
+        'No Booking for this passenger',
+      );
+    }
+    return passenger
+  }
+
   async deleteBooking(flightId: number, passengerId: number) {
     const res = await this.bookingRepo.delete(flightId, passengerId);
     if (!res) throw new NotFoundException('No Booking Found');

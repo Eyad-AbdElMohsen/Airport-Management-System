@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { dbConfig } from './config/db.config';
 import { APP_FILTER } from '@nestjs/core';
 import { GeneralGqlExceptionFilter } from './common/filters/gql.filter';
 import { GraphQLModule } from '@nestjs/graphql';
-import { gqlConfig } from './config/gql.config';
 import { AuthModule } from './models/auth/auth.module';
 import { PassengerModule } from './models/passenger/passenger.module';
 import { AirportModule } from './models/airport/airport.module';
@@ -18,20 +17,29 @@ import { BagModule } from './models/bag/bag.module';
 import { BookingModule } from './models/booking/booking.module';
 import { Sequelize } from 'sequelize-typescript';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GqlConfigService } from './config/gql.config';
+import { JWT } from './common/utils/jwt';
+import { GqlConfigModule } from './config/gql.module';
+import { MailModule } from './common/mail/mail.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      imports: [SequelizeModule],
-      useFactory: async (sequelize: Sequelize) => gqlConfig(sequelize),
-      inject: [Sequelize],
+      imports: [SequelizeModule, ConfigModule, GqlConfigModule],
+      inject: [GqlConfigService, Sequelize],
+      useFactory: async (
+        gqlConfigService: GqlConfigService,
+        sequelize: Sequelize,
+      ) => gqlConfigService.createGqlConfig(sequelize),
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       ...dbConfig,
     }),
+    MailModule,
+    GqlConfigModule,
     AuthModule,
     PassengerModule,
     AirportModule,
@@ -49,6 +57,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       provide: APP_FILTER,
       useClass: GeneralGqlExceptionFilter,
     },
+    GqlConfigService,
+    JWT,
   ],
 })
 export class AppModule {}

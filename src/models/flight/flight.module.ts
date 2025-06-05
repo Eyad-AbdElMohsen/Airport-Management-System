@@ -7,12 +7,14 @@ import { FlightService } from './flight.service';
 import { FlightRepo } from './flight.repository';
 import { BookingModule } from '../booking/booking.module';
 import { SharedModule } from 'src/common/shared/shared.module';
+import { PassengerModule } from '../passenger/passenger.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([FlightModel]),
     forwardRef(() => BookingModule),
-    SharedModule
+    SharedModule,
+    PassengerModule
   ],
   providers: [FlightResolver, FlightService, FlightRepo, JWT],
   exports: [FlightRepo],

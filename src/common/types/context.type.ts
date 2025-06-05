@@ -10,6 +10,7 @@ export interface GqlContext {
   req: Request;
   res: Response;
   user?: JwtPayload;
+  extra?: { user?: JwtPayload };
   loaders: {
     airport: {
       staffLoader: DataLoader<number, StaffModel[]>;
