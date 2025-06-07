@@ -7,7 +7,7 @@ export const createBookingLoader = (sequelize: Sequelize) => ({
   seatLoader: new DataLoader(async (seatIds: number[]) => {
     const seats = await sequelize.getRepository(SeatModel).findAll({
       where: { id: { [Op.in]: seatIds } },
-      raw: true, 
+      raw: true,
     });
 
     const seatMap = new Map<number, SeatModel>();

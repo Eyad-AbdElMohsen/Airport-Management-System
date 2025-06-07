@@ -4,7 +4,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 export class FlightAssignment {
   @Field(() => Int)
   flightId: number;
-  @Field(()=> Int)
+  @Field(() => Int)
   staffId: number;
   @Field()
   createdAt: Date;

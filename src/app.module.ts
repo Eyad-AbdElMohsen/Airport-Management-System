@@ -3,7 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { dbConfig } from './config/db.config';
 import { APP_FILTER } from '@nestjs/core';
-import { GeneralGqlExceptionFilter } from './common/filters/gql.filter';
+import { GeneralGqlExceptionFilter } from './common/filters/gql-exception.filter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule } from './models/auth/auth.module';
 import { PassengerModule } from './models/passenger/passenger.module';

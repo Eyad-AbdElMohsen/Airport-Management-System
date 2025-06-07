@@ -31,7 +31,7 @@ export class PassengerRepo {
   }
 
   async getAll(options: FindOptions) {
-    options.raw = true
+    options.raw = true;
     return await this.passengerModel.findAll({ raw: true });
   }
 

@@ -1,6 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
-import { FindOptions, where } from 'sequelize';
+import { FindOptions } from 'sequelize';
 import { FlightModel } from './flight.entity';
 import { CreateFlightInput } from './gql/create.input';
 import { PlaneModel } from '../plane/plane.entity';

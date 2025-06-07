@@ -17,8 +17,8 @@ import { AuthModule } from '../auth/auth.module';
     forwardRef(() => BookingModule),
     SharedModule,
     PassengerModule,
-    MailModule, 
-    AuthModule
+    MailModule,
+    AuthModule,
   ],
   providers: [FlightResolver, FlightService, FlightRepo, JWT],
   exports: [FlightRepo],

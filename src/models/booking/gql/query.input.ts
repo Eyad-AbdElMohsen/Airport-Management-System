@@ -12,7 +12,7 @@ export class BookingQueryInput extends BaseQueryInput {
   @IsInColumns(BookingModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(BookingModel)

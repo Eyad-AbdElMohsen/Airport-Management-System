@@ -1,7 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail, IsString, Length } from 'class-validator';
-import { AuthModel } from '../auth.entity';
-import { IsExistInDB } from 'src/common/validators/IsInDB.validator';
 
 @InputType()
 export class VerifyInput {

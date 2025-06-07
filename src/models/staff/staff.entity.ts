@@ -44,7 +44,7 @@ export class StaffModel extends Model {
   @HasMany(() => FlightAssignmentModel)
   flightAssignment: FlightAssignmentModel[];
 
-  @BelongsToMany(() => FlightModel, ()=> FlightAssignmentModel)
+  @BelongsToMany(() => FlightModel, () => FlightAssignmentModel)
   flights: FlightModel[];
 
   @Column({ type: DataType.DATE })

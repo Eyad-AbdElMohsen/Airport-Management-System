@@ -12,7 +12,7 @@ export class AirportQueryInput extends BaseQueryInput {
   @IsInColumns(AirportModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(AirportModel)

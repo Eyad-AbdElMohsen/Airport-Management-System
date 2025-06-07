@@ -11,7 +11,7 @@ export class UpdateBagStatusInput {
   @IsNumber()
   @IsExistInDB(FlightModel)
   flightId: number;
-  
+
   @Field(() => Int)
   @IsNumber()
   @IsExistInDB(PassengerModel)

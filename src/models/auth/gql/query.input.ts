@@ -12,7 +12,7 @@ export class AuthQueryInput extends BaseQueryInput {
   @IsInColumns(AuthModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(AuthModel)

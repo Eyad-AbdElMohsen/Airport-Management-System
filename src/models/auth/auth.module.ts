@@ -10,6 +10,6 @@ import { MailModule } from 'src/common/mail/mail.module';
 @Module({
   imports: [SequelizeModule.forFeature([AuthModel]), MailModule],
   providers: [AuthResolver, AuthRepo, AuthService, JWT],
-  exports: [AuthRepo]
+  exports: [AuthRepo],
 })
 export class AuthModule {}

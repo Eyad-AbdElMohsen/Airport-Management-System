@@ -20,7 +20,7 @@ export class BookingService {
   ) {}
 
   async createBooking(authId: number, createBookingInput: CreateBookingInput) {
-    // 0% Performance :)
+    // Worst method about Performance :)
     const passenger = await this.passengerRepo.getByAuthId(authId);
     if (!passenger) {
       throw new BadRequestException(
@@ -68,14 +68,15 @@ export class BookingService {
     return await this.bookingRepo.getAllByFlightId(flightId, options);
   }
 
-  async checkPassengerBooking(flightId: number, passengerId: number){
-    const passenger = await this.bookingRepo.getPassengerInSpecificFlight(passengerId, flightId)
+  async checkPassengerBooking(flightId: number, passengerId: number) {
+    const passenger = await this.bookingRepo.getPassengerInSpecificFlight(
+      passengerId,
+      flightId,
+    );
     if (!passenger) {
-      throw new NotFoundException(
-        'No Booking for this passenger',
-      );
+      throw new NotFoundException('No Booking for this passenger');
     }
-    return passenger
+    return passenger;
   }
 
   async deleteBooking(flightId: number, passengerId: number) {

@@ -1,4 +1,12 @@
-import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/common/gaurds/auth.gaurd';
 import { BookingService } from './booking.service';

@@ -40,7 +40,7 @@ export class PassengerModel extends Model {
   @HasMany(() => BookingModel)
   bookings: BookingModel[];
 
-  @BelongsToMany(() => FlightModel, ()=> BookingModel)
+  @BelongsToMany(() => FlightModel, () => BookingModel)
   flights: FlightModel[];
 
   @Column({ type: DataType.DATE })

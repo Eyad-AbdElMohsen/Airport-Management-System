@@ -14,8 +14,8 @@ export class ApiFeatures {
     };
   }
 
-  filter(filters: Record<string, string | number | Date>) {
-    this.queryOptions.where = { ...filters };
+  filter() {
+    this.queryOptions.where = { ...this.queryString.filters };
     return this;
   }
 

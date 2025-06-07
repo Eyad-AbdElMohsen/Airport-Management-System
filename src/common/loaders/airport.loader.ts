@@ -8,10 +8,10 @@ export const createAirportLoader = (sequelize: Sequelize) => ({
     async (airportIds: number[]) => {
       const staff = await sequelize.getRepository(StaffModel).findAll({
         where: { airportId: { [Op.in]: airportIds } },
-        raw: true
+        raw: true,
       });
 
-      const staffMap = new Map<number, StaffModel[]>()
+      const staffMap = new Map<number, StaffModel[]>();
 
       airportIds.forEach((id) => {
         staffMap[id] = [];

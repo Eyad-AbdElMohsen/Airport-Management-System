@@ -9,6 +9,6 @@ import { JWT } from 'src/common/utils/jwt';
 @Module({
   imports: [SequelizeModule.forFeature([PassengerModel])],
   providers: [PassengerRepo, PassengerResolver, PassengerService, JWT],
-  exports: [PassengerRepo, PassengerService]
+  exports: [PassengerRepo, PassengerService],
 })
 export class PassengerModule {}

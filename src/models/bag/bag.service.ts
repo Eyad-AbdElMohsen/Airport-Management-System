@@ -4,7 +4,6 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import { BagRepo } from './bag.repository';
 import { CreateBagInput } from './gql/create.input';

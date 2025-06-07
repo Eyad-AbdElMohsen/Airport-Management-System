@@ -12,7 +12,7 @@ export class FlightQueryInput extends BaseQueryInput {
   @IsInColumns(FlightModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(FlightModel)

@@ -11,17 +11,17 @@ export class CreateBagInput {
   @IsNumber()
   @IsExistInDB(FlightModel)
   flightId: number;
-  
+
   @Field(() => Int)
   @IsNumber()
   @IsExistInDB(PassengerModel)
   passengerId: number;
-  
+
   @Field()
   @IsString()
   @IsIn(Object.values(BagTypes))
   type: BagTypes;
-  
+
   @Field()
   @IsString()
   @IsIn(Object.values(BagStatus))

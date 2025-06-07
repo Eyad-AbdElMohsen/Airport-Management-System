@@ -19,7 +19,7 @@ export class GqlConfigService {
       installSubscriptionHandlers: true,
       subscriptions: {
         'graphql-ws': {
-          // Authorization 
+          // // Authorization
           // onConnect: (context) => {
           //   const { connectionParams, extra } = context;
           //   // const token = connectionParams?.authToken as string;
@@ -41,7 +41,7 @@ export class GqlConfigService {
       context: ({ req, res, extra }): GqlContext => ({
         req,
         res,
-        extra,
+        // extra,
         loaders: createLoaders(sequelize),
       }),
       formatError: (error) => ({

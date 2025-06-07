@@ -20,7 +20,7 @@ export class staffRepo {
   }
 
   async getAll(options: FindOptions) {
-    options.raw = true
+    options.raw = true;
     return await this.staffModel.findAll(options);
   }
 

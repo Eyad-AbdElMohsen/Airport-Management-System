@@ -68,8 +68,8 @@ export class FlightModel extends Model {
   @BelongsToMany(() => PassengerModel, () => BookingModel)
   passengers: PassengerModel[];
 
-  @BelongsToMany(() => StaffModel, ()=> FlightAssignmentModel)
-  staff: StaffModel[]
+  @BelongsToMany(() => StaffModel, () => FlightAssignmentModel)
+  staff: StaffModel[];
 
   @HasMany(() => BookingModel)
   booking: BookingModel[];

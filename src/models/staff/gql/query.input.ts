@@ -12,7 +12,7 @@ export class StaffQueryInput extends BaseQueryInput {
   @IsInColumns(StaffModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(StaffModel)

@@ -5,9 +5,7 @@ import {
   Column,
   DataType,
   HasOne,
-  AfterCreate,
   Default,
-  AllowNull,
 } from 'sequelize-typescript';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { PassengerModel } from '../passenger/passenger.entity';

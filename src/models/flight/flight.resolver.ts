@@ -102,7 +102,7 @@ export class FlightResolver {
       // );
       return (
         payload.passengerId === variables.passengerId &&
-        payload.flightId === variables.flightId 
+        payload.flightId === variables.flightId
         // && isBooking
       );
     },

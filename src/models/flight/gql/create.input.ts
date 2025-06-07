@@ -1,8 +1,8 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { FlightStatus } from 'src/common/types/flightStatus.type';
 import { IsUnique } from 'src/common/validators/IsUnique.validator';
 import { FlightModel } from '../flight.entity';
-import { IsDate, IsIn, IsNumber, IsString, NotEquals } from 'class-validator';
+import { IsDate, IsIn, IsNumber, IsString } from 'class-validator';
 import { IsExistInDB } from 'src/common/validators/IsInDB.validator';
 import { PlaneModel } from 'src/models/plane/plane.entity';
 import { AirportModel } from 'src/models/airport/airport.entity';

@@ -6,12 +6,7 @@ import { ApiFeatures } from '../utils/apiFeature';
 @Injectable()
 export class ApiFeaturesPipe implements PipeTransform {
   transform(value: Partial<BaseQuery>): FindOptions {
-    const { filters = {}, ...queryOptions } = value;
-
-    const api = new ApiFeatures(queryOptions);
-
-    const options = api.filter(filters).sort().paginate().build();
-
-    return options;
+    const api = new ApiFeatures(value);
+    return api.filter().sort().paginate().build();
   }
 }

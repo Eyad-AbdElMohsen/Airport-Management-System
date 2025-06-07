@@ -12,7 +12,7 @@ export class BagQueryInput extends BaseQueryInput {
   @IsInColumns(BagModel)
   @Field({ nullable: true })
   sort?: string;
-  
+
   @IsOptional()
   @IsObject({ message: 'Filters must be a key-value object' })
   @IsInColumns(BagModel)

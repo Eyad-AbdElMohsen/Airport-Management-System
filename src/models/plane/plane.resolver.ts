@@ -36,9 +36,7 @@ export class PlaneResolver {
 
   @Mutation(() => GraphQLJSONObject)
   @Roles(AuthRoles.admin)
-  async deletePlane(
-    @Args('planeId', ParseIntPipe) planeId: number,
-  ) {
+  async deletePlane(@Args('planeId', ParseIntPipe) planeId: number) {
     return await this.planeService.deletePlane(planeId);
   }
 }

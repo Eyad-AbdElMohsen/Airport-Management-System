@@ -15,12 +15,12 @@ export class AirportRepo {
   }
 
   async getAll(options: FindOptions) {
-    options.raw = true
+    options.raw = true;
     return await this.airportModel.findAll(options);
   }
 
   async getByid(id: number) {
-    return await this.airportModel.findByPk(id, {raw: true});
+    return await this.airportModel.findByPk(id, { raw: true });
   }
 
   async delete(id: number) {

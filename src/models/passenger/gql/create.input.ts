@@ -1,11 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import {
-  IsString,
-  Max,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator';
+import { IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { PassengerModel } from '../passenger.entity';
 import { IsUnique } from 'src/common/validators/IsUnique.validator';
 
