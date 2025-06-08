@@ -6,7 +6,8 @@ A learning backend project built with **NestJS**, **GraphQL**, and **Sequelize**
 
 ## 📫 Postman Collection
 
-You can find the Postman collection in [`postman/airport.postman_collection.json`]([./postman/airport.postman_collection.json](https://www.postman.com/vortex-1744/workspace/eyad/collection/6845606e6d6bd3301c7b050a?action=share&creator=39034446&active-environment=39034446-8dc2af14-a681-4e01-a78d-1c20881f03f3)
+You can find the Postman collection in [postman/airport.postman_collection.json](https://www.postman.com/vortex-1744/workspace/eyad/collection/6845606e6d6bd3301c7b050a?action=share&creator=39034446&active-environment=39034446-8dc2af14-a681-4e01-a78d-1c20881f03f3)
+
 
 ---
 
