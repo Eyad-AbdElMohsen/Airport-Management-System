@@ -5,10 +5,10 @@ import { AuthResolver } from './auth.resolver';
 import { AuthRepo } from './auth.repository';
 import { AuthService } from './auth.service';
 import { JWT } from 'src/common/utils/jwt';
-import { MailModule } from 'src/common/mail/mail.module';
+import { BullQueueModule } from 'src/common/queue/queue.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([AuthModel]), MailModule],
+  imports: [SequelizeModule.forFeature([AuthModel]), BullQueueModule],
   providers: [AuthResolver, AuthRepo, AuthService, JWT],
   exports: [AuthRepo],
 })

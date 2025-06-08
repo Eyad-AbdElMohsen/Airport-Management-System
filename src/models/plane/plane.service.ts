@@ -24,7 +24,7 @@ export class PlaneService {
       return (await this.planeRepo.create(createPlaneInput, transaction))
         .dataValues;
     } catch (err) {
-      console.log('Error in creating a Plane: ', err);
+      console.error('Error in creating a Plane: ', err);
       await transaction.rollback();
       throw new InternalServerErrorException(
         'Transaction field, pls try again',
@@ -40,7 +40,7 @@ export class PlaneService {
     try {
       return await this.planeRepo.getAll(options);
     } catch (err) {
-      console.log('Error Getting Staff: ', err);
+      console.error('Error Getting Planes: ', err);
       throw new HttpException(
         'Filtering Validation Error',
         HttpStatus.BAD_REQUEST,

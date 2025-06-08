@@ -50,7 +50,7 @@ export class PlaneModel extends Model {
       await SeatModel.bulkCreate(seats, { transaction });
       await transaction.commit();
     } catch (err) {
-      console.log('Error in creating Seats hook: ', err);
+      console.error('Error in creating Seats hook: ', err);
       await transaction.rollback();
       throw new InternalServerErrorException(
         'Transaction field, pls try again',

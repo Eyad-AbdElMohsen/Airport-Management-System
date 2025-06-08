@@ -6,15 +6,15 @@ import { BagService } from './bag.service';
 import { BagResolver } from './bag.resolver';
 import { BagRepo } from './bag.repository';
 import { SharedModule } from 'src/common/shared/shared.module';
-import { MailModule } from 'src/common/mail/mail.module';
 import { AuthModule } from '../auth/auth.module';
+import { BullQueueModule } from 'src/common/queue/queue.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([BagModel]),
     SharedModule,
     AuthModule,
-    MailModule,
+    BullQueueModule,
   ],
   providers: [BagResolver, BagService, BagRepo, JWT],
 })

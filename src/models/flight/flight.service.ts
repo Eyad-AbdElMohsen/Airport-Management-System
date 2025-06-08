@@ -17,6 +17,7 @@ import { FlightModel } from './flight.entity';
 import { AuthRepo } from '../auth/auth.repository';
 import { BookingModel } from '../booking/booking.entity';
 import { MailService } from 'src/common/mail/mail.service';
+import { QueueService } from 'src/common/queue/queue.service';
 
 @Injectable()
 export class FlightService {
@@ -24,8 +25,8 @@ export class FlightService {
     private readonly flightRepo: FlightRepo,
     private readonly authRepo: AuthRepo,
     private readonly bookingRepo: BookingRepo,
-    private readonly mailService: MailService,
     @Inject('PUB_SUB') private pubSub: PubSub,
+    private readonly queueService: QueueService,
   ) {}
 
   async createFlight(createFlightInput: CreateFlightInput) {
@@ -61,7 +62,15 @@ export class FlightService {
   }
 
   async getAllFlights(options: FlightQueryInput) {
-    return await this.flightRepo.getAll(options);
+    try {
+      return await this.flightRepo.getAll(options);
+    } catch (err) {
+      console.error('Error Getting Flights: ', err);
+      throw new HttpException(
+        'Filtering Validation Error',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async getAllAvailableSeatsInFlight(flightId: number) {
@@ -111,7 +120,7 @@ export class FlightService {
 
     Promise.all(
       auths.map((auth) =>
-        this.mailService.notifyPassengerFlightStatus(
+        this.queueService.notifyFlightStatus(
           auth.dataValues.email,
           updatedData.id,
           updateFlightStatusInput,

@@ -13,23 +13,29 @@ import { LoginInput } from './gql/login.input';
 import { JWT } from 'src/common/utils/jwt';
 import { AuthRoles } from 'src/common/types/auth.type';
 import { UpdateRoleInput } from './gql/update.input';
-import { Sequelize } from 'sequelize-typescript';
 import { AuthQueryInput } from './gql/query.input';
 import { randomBytes } from 'crypto';
-import { MailService } from 'src/common/mail/mail.service';
 import { VerifyInput } from './gql/verify.input';
+import { QueueService } from 'src/common/queue/queue.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepo: AuthRepo,
     private readonly jwt: JWT,
-    private readonly sequelize: Sequelize,
-    private readonly mailService: MailService,
+    private readonly queueService: QueueService,
   ) {}
 
   async getAllAuth(options: AuthQueryInput) {
-    return await this.authRepo.getAll(options);
+    try {
+      return await this.authRepo.getAll(options);
+    } catch (err) {
+      console.error('Error Getting Auths: ', err);
+      throw new HttpException(
+        'Filtering Validation Error',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async getAuthById(id: number) {
@@ -52,14 +58,14 @@ export class AuthService {
       await this.authRepo.create(signupInput, false, verificationCode)
     ).dataValues;
 
-    await this.mailService.sendVerificationCode(auth.email, verificationCode);
+    await this.queueService.sendVerificationCode(auth.email, verificationCode);
     return auth;
   }
 
   async verifyAuth(verifyInput: VerifyInput) {
     const auth = await this.getAuthByEmail(verifyInput.email);
     if (!auth) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new UnauthorizedException('Invalid email');
     }
 
     if (auth.isVerified) throw new BadRequestException('Already Verified!');

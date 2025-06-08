@@ -34,7 +34,7 @@ export class PassengerService {
     try {
       return await this.passengerRepo.getAll(options);
     } catch (err) {
-      console.log('Error Getting Staff: ', err);
+      console.error('Error Getting Passengers: ', err);
       throw new HttpException(
         'Filtering Validation Error',
         HttpStatus.BAD_REQUEST,

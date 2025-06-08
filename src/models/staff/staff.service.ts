@@ -23,7 +23,7 @@ export class StaffService {
     try {
       return await this.staffRepo.getAll(options);
     } catch (err) {
-      console.log('Error Getting Staff: ', err);
+      console.error('Error Getting Staff: ', err);
       throw new HttpException(
         'Filtering Validation Error',
         HttpStatus.BAD_REQUEST,

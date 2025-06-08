@@ -21,7 +21,7 @@ async function bootstrap() {
     await app.listen(3000);
     console.log('Application is running: http://localhost:3000');
   } catch (err) {
-    console.log('Failed to bootstrap the application', err);
+    console.error('Failed to bootstrap the application', err);
     process.exit(1);
   }
 }

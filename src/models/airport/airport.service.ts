@@ -26,7 +26,7 @@ export class AirportService {
     try {
       return await this.airportRepo.getAll(options);
     } catch (err) {
-      console.log('Error Getting Staff: ', err);
+      console.error('Error Getting Airports: ', err);
       throw new HttpException(
         'Filtering Validation Error',
         HttpStatus.BAD_REQUEST,

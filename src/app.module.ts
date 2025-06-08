@@ -21,7 +21,9 @@ import { GqlConfigService } from './config/gql.config';
 import { JWT } from './common/utils/jwt';
 import { GqlConfigModule } from './config/gql.module';
 import { MailModule } from './common/mail/mail.module';
-
+import { BullQueueModule } from './common/queue/queue.module';
+import * as crypto from 'crypto';
+(global as any).crypto = crypto;
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -38,6 +40,7 @@ import { MailModule } from './common/mail/mail.module';
       imports: [ConfigModule],
       ...dbConfig,
     }),
+    BullQueueModule,
     MailModule,
     GqlConfigModule,
     AuthModule,

@@ -1,6 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Inject, Injectable } from '@nestjs/common';
-import { PubSub } from 'graphql-subscriptions';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MailService {

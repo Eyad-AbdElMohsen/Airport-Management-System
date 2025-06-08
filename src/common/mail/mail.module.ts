@@ -8,9 +8,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     SharedModule,
     MailerModule.forRootAsync({
-     imports: [ConfigModule],
-     inject: [ConfigService],
-     useFactory: (async(configService: ConfigService)=> {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         return {
           transport: {
             host: configService.get<string>('EMAIL_HOST'),
@@ -18,17 +18,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             auth: {
               user: configService.get<string>('EMAIL_USERNAME'),
               pass: configService.get<string>('EMAIL_PASSWORD'),
-            }
-          }
-        }
-     })
+            },
+          },
+        };
+      },
     }),
   ],
   providers: [MailService],
   exports: [MailService],
 })
-export class MailModule {
-
-}
-
-
+export class MailModule {}

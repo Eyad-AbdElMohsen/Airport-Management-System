@@ -28,7 +28,7 @@ export class AuthModel extends Model {
   role: string;
 
   @Default(false)
-  @Column({ type: DataType.BOOLEAN })
+  @Column({ type: DataType.BOOLEAN, defaultValue: false })
   isVerified: boolean;
 
   @Column({ type: DataType.STRING })

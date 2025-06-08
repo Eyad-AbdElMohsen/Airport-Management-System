@@ -10,17 +10,17 @@ import { CreateBagInput } from './gql/create.input';
 import { BagQueryInput } from './gql/query.input';
 import { UpdateBagStatusInput } from './gql/update.input';
 import { PubSub } from 'graphql-subscriptions';
-import { MailService } from 'src/common/mail/mail.service';
 import { BagModel } from './bag.entity';
 import { AuthRepo } from '../auth/auth.repository';
+import { QueueService } from 'src/common/queue/queue.service';
 
 @Injectable()
 export class BagService {
   constructor(
     private readonly bagRepo: BagRepo,
     @Inject('PUB_SUB') private pubSub: PubSub,
-    private readonly mailService: MailService,
     private readonly authRepo: AuthRepo,
+    private readonly queueService: QueueService,
   ) {}
 
   async createBag(createBagInput: CreateBagInput) {
@@ -31,7 +31,7 @@ export class BagService {
     try {
       return await this.bagRepo.getAll(options);
     } catch (err) {
-      console.log('Error Getting Bags: ', err);
+      console.error('Error Getting Bags: ', err);
       throw new BadRequestException('Validation Error');
     }
   }
@@ -54,13 +54,11 @@ export class BagService {
       updatedData.passengerId,
     );
 
-    if (auth) {
-      await this.mailService.notifyPassengerBagStatus(
-        auth.dataValues.email,
-        updatedData.id,
-        updatedData.status,
-      );
-    }
+    await this.queueService.notifyBagStatus(
+      auth!.dataValues.email,
+      updatedData.id,
+      updatedData.status,
+    );
 
     return updatedData;
   }
