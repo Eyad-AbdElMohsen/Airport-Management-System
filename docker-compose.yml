@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: node_container
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:  
+      - postgres
+      - redis
+    env_file:
+      - ./.env
+  postgres:
+    image: postgres
+    container_name: postgres-db-container
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: airport_system
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    restart: always
+    ports:
+      - 6379:6379
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  pgdata:
