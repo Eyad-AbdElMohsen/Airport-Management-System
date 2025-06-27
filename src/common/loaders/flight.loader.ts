@@ -19,7 +19,7 @@ export const createFlightLoader = (sequelize: Sequelize) => ({
       bagMap[bag.flightId].push(bag);
     });
 
-    return flightIds.map((id) => bagMap[id]);
+    return flightIds.map((id) => bagMap[id] || []);
   }),
 
   bookingLoader: new DataLoader<number, BookingModel[]>(
@@ -39,7 +39,7 @@ export const createFlightLoader = (sequelize: Sequelize) => ({
         staffMap[booking.flightId].push(booking);
       });
 
-      return flightIds.map((id) => staffMap[id]);
+      return flightIds.map((id) => staffMap[id] || []);
     },
   ),
 });

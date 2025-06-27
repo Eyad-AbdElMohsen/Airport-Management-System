@@ -1,6 +1,7 @@
 import DataLoader from 'dataloader';
 import { Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { AirportModel } from 'src/models/airport/airport.entity';
 import { StaffModel } from 'src/models/staff/staff.entity';
 
 export const createAirportLoader = (sequelize: Sequelize) => ({
@@ -13,15 +14,12 @@ export const createAirportLoader = (sequelize: Sequelize) => ({
 
       const staffMap = new Map<number, StaffModel[]>();
 
-      airportIds.forEach((id) => {
-        staffMap[id] = [];
+      staff.forEach((st) => {
+        if (staffMap.has(st.airportId)) staffMap.get(st.airportId)!.push(st);
+        else staffMap.set(st.airportId, [st]);
       });
 
-      staff.forEach((s) => {
-        staffMap[s.airportId].push(s);
-      });
-
-      return airportIds.map((id) => staffMap[id]);
+      return airportIds.map((id) => staffMap.get(id) || []);
     },
   ),
 });

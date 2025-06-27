@@ -12,15 +12,15 @@ export const createPassenegerLoader = (sequelize: Sequelize) => ({
         raw: true,
       });
 
-      const bagMap: { [id: number]: BagModel[] } = {};
-
-      passengerIds.forEach((id) => (bagMap[id] = []));
+      const bagMap = new Map<number, BagModel[]>();
 
       bags.forEach((bag) => {
-        bagMap[bag.passengerId].push(bag);
+        if (bagMap.has(bag.passengerId)) {
+          bagMap.get(bag.passengerId)!.push(bag);
+        } else bagMap.set(bag.passengerId, [bag]);
       });
 
-      return passengerIds.map((id) => bagMap[id]);
+      return passengerIds.map((id) => bagMap.get(id) || []);
     },
   ),
 
@@ -31,17 +31,15 @@ export const createPassenegerLoader = (sequelize: Sequelize) => ({
         raw: true,
       });
 
-      const staffMap: { [id: number]: BookingModel[] } = {};
-
-      passengerIds.forEach((id) => {
-        staffMap[id] = [];
-      });
+      const bookingMap = new Map<number, BookingModel[]>();
 
       bookings.forEach((booking) => {
-        staffMap[booking.passengerId].push(booking);
+        if (bookingMap.has(booking.passengerId)) {
+          bookingMap.get(booking.passengerId)!.push(booking);
+        } else bookingMap.set(booking.passengerId, [booking]);
       });
 
-      return passengerIds.map((id) => staffMap[id]);
+      return passengerIds.map((id) => bookingMap.get(id) || []);
     },
   ),
 });
